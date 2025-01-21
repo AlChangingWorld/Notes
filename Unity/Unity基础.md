@@ -1,18 +1,39 @@
-## 3D数学
-### 数学计算公共类 Mathf
-**Mathf和Math**     
-**Math**是C#中封装好的用于数学计算的工具类 —— 位于System命名空间中      
-**Mathf**是Unity中封装好的用于数学计算的工具结构体 —— 位于UnityEngine命名空间中         
-他们都是提供来用于进行数学相关计算的 都是静态的
+- [3D数学](#3d数学)
+  - [数学计算公共类 Mathf](#数学计算公共类-mathf)
+  - [三角函数](#三角函数)
+  - [坐标系](#坐标系)
+  - [Vector3向量](#vector3向量)
+    - [向量模长和单位向量](#向量模长和单位向量)
+    - [向量加减乘除](#向量加减乘除)
+    - [摄像机跟随物体移动](#摄像机跟随物体移动)
+    - [向量点乘](#向量点乘)
+    - [向量叉乘](#向量叉乘)
+  - [插值运算](#插值运算)
+  - [四元数](#四元数)
+    - [欧拉角](#欧拉角)
+    - [四元数](#四元数-1)
+    - [四元数的常用方法](#四元数的常用方法)
+    - [四元数计算](#四元数计算)
+- [Mono中的重要内容](#mono中的重要内容)
+  - [延迟（延时）函数](#延迟延时函数)
+  - [协同程序](#协同程序)
 
-**他们的区别**
-Mathf 和 Math中的相关方法几乎一样
-Math 是C#自带的工具类 主要就提供一些数学相关计算方法
-Mathf 是Unity专门封装的，不仅包含Math中的方法，还多了一些适用于游戏开发的方法
-所以我们在进行Unity游戏开发时
-使用Mathf中的方法用于数学计算即可
 
-**Mathf中的常用方法——一般计算一次**
+## 3D数学       
+### 数学计算公共类 Mathf        
+**Mathf和Math**             
+**Math**是C#中封装好的用于数学计算的工具类 —— 位于System命名空间中              
+**Mathf**是Unity中封装好的用于数学计算的工具结构体 —— 位于UnityEngine命名空间       中                 
+他们都是提供来用于进行数学相关计算的 都是静态的         
+
+**他们的区别**      
+Mathf 和 Math中的相关方法几乎一样           
+Math 是C#自带的工具类 主要就提供一些数学相关计算方法                
+Mathf 是Unity专门封装的，不仅包含Math中的方法，还多了一些适用于游戏开发的方法               
+所以我们在进行Unity游戏开发时       
+使用Mathf中的方法用于数学计算即可       
+
+**Mathf中的常用方法——一般计算一次** 
 ``` c#
 //1.π - PI
 print(Mathf.PI);
@@ -72,24 +93,23 @@ print("判断正负数" + Mathf.Sign(3));
 print("判断正负数" + Mathf.Sign(-2));
 ```
 
-**Mathf中的常用方法——一般不停计算**
-``` c#
-//插值运算 - Lerp
-// 一个对象跟随着另一个对象移动
-float start = 0;
+**Mathf中的常用方法——一般不停计算** 
+``` c#      
+//插值运算 - Lerp       
+// 一个对象跟随着另一个对象移动     
+float start = 0;        
 
-//Lerp函数公式
-result = Mathf.Lerp(start, end, t);
+//Lerp函数公式      
+result = Mathf.Lerp(start, end, t);     
 
-//t为插值系数，取值范围为 0~1 插值计算公式
-//result = start + (end - start)*t  
+//t为插值系数，取值范围为 0~1 插值计算公式      
+//result = start + (end - start)*t          
  
-//插值运算用法一
-//每帧改变start的值——变化速度先快后慢，位置无限接近，但是不会得到end位置
+//插值运算用法一        
+//每帧改变start的值——变化速度先快后慢，位置无限接近，但是不会得到end位置    
 start = Mathf.Lerp(start, 10, Time.deltaTime);
 
 //物体追踪
-
 public float Speed;
 Vector3 v; //临时记录当前我的位置
 
@@ -113,9 +133,9 @@ private float time;
 Vector3 targetNowPos; //记录目标位置
 Vector3 StartPos;//记录起始位置
 
-if (targetNowPos != target.transform.position) 
+if (targetNowPos != target.transform.position)      
 {
-    time = 0;
+    time = 0;       
     targetNowPos = target.transform.position;
     StartPos = this.transform.position;
 }
@@ -128,12 +148,12 @@ pos.z = Mathf.Lerp(StartPos.z, targetNowPos.z, time);
 this.transform.position = pos;
 ```
 
-### 三角函数
-角度: 360°  1角度 = PI/180 ≈ 0.01745 rad
-弧度: 圆一周的弧度为2Π  1弧度 = 180/PI ≈ 57.3°
+### 三角函数        
+角度: 360°  1角度 = PI/180 ≈ 0.01745 rad             
+弧度: 圆一周的弧度为2Π  1弧度 = 180/PI ≈ 57.3°            
 
-**弧度、角度相互转化**
-``` c#
+**弧度、角度相互转化**      
+``` c#      
 //弧度转角度
 float rad = 1;
 float anger = rad * Mathf.Rad2Deg;
@@ -145,7 +165,7 @@ rad = anger * Mathf.Deg2Rad;
 print(rad);
 ```
 
-**三角函数**
+**三角函数**        
 可以来做一种来回波动的效果 比如船
 正弦函数sin 
 Sinβ = 角的对边/斜边
@@ -153,7 +173,7 @@ Sinβ = 角的对边/斜边
 Consβ = 角的临边/斜边
 
 ``` c#
-//注意：Mathf中的三角函数相关函数，传入的参数需要时弧度值
+//注意：Mathf中的三角函数相关函数，传入的参数需要是弧度值
 print(Mathf.Sin(30 * Mathf.Deg2Rad));//0.5
 print(Mathf.Cos(60 * Mathf.Deg2Rad));//0.5
 ```
@@ -188,8 +208,8 @@ void Update()
     this.transform.Translate((Vector3.right * changeSize) * Time.deltaTime * Mathf.Sin(time));
 } 
 ```
-### 坐标系      
-**世界坐标系**
+### 坐标系                  
+**世界坐标系**  
 固定的三个轴
 ``` c#
 //目前学习的和世界坐标系相关的
@@ -197,45 +217,45 @@ this.transform.position;
 this.transform.rotation; //四元数
 this.transform.eulerAngles; //欧拉角
 this.transform.lossyScale;
-//修改他们 会是相对世界坐标系的变化
+//修改他们 会是相对世界坐标系的变化 
 ```
 
-**物体坐标系**
-建模时决定 右方x轴正方向 上方y轴正方向 前方为z轴正方向
+**物体坐标系**      
+建模时决定 右方x轴正方向 上方y轴正方向 前方为z轴正方向          
 ``` c#
 //相对父对象的物体坐标系的位置 本地坐标 相对坐标        
-this.transform.localPosition;       
-this.transform.localEulerAngles;
-this.transform.localRotation; 
-this.transform.localScale;
+this.transform.localPosition;           
+this.transform.localEulerAngles;        
+this.transform.localRotation;   
+this.transform.localScale;  
 //修改他们 会是相对父对象物体坐标系的变化
 ```
 
-**屏幕坐标系**
-屏幕左下角 右为x轴正方向 上为y轴正方向
-最大宽高 Screen.width Screen.height
+**屏幕坐标系**  
+屏幕左下角 右为x轴正方向 上为y轴正方向  
+最大宽高 Screen.width Screen.height 
 ``` c#
-Input.mousePosition
+Input.mousePosition 
 Screen.width;
 Screen.height;
 ```
 
-**视口坐标系**
-屏幕左下角 右为x轴正方向 上为y轴正方向
-左下角是(0,0) 右上角为(1,1)
+**视口坐标系**  
+屏幕左下角 右为x轴正方向 上为y轴正方向  
+左下角是(0,0) 右上角为(1,1)                 
 摄像机上的 视口范围 Viewpoint Rect
 
 **坐标转换相关**
-``` c#
+``` c#      
 //世界转本地
-this.transform.InverseTransformDirection
-this.transform.InverseTransformPoint
+this.transform.InverseTransformDirection        
+this.transform.InverseTransformPoint        
 this.transform.InverseTransformVector
 
 //本地转世界
-this.transform.TransformDirection
-this.transform.TransformPoint  
-this.transform.TransformVector
+this.transform.TransformDirection   
+this.transform.TransformPoint       
+this.transform.TransformVector      
 
 //世界转屏幕
 Camera.main.WorldToScreenPoint
@@ -258,107 +278,106 @@ Camera.main.ScreenToViewportPoint;
 #### 向量模长和单位向量  
 **向量** 有数值大小 有方向的矢量
 
-
 **向量** 
 ``` c#
 //三维向量 - Vector3
 //Vector3有两种几何意义
-//1.位置 —— 代表一个点
-print(this.transform.position);
+//1.位置 —— 代表一个点  
+print(this.transform.position); 
 
 //2.方向 —— 代表一个方向
-print(this.transform.forward); //面朝向的方向
-print(this.transform.up);
+print(this.transform.forward); //面朝向的方向   
+print(this.transform.up);       
 
-Vector3 v = new Vector3(1, 2, 3); //可以代表点 也可以代表向量
+Vector3 v = new Vector3(1, 2, 3); //可以代表点 也可以代表向量   
 Vector2 v2 = new Vector2(1, 2);//可以代表点 也可以代表向量
-```
+``` 
 
-**两点决定一向量**
+**两点决定一向量**      
 终点减起点      
-``` c#
+``` c#          
 //A和B此时 几何意义 是两个点
 Vector3 A = new Vector3(1, 2, 3);
 Vector3 B = new Vector3(5, 1, 5);
 
 //求向量
 //此时 AB和 BA 他们的几何意义 是两个向量
-Vector3 AB = B - A;
-Vector3 BA = A - B;
+Vector3 AB = B - A;     
+Vector3 BA = A - B;     
 ```
 
-**零向量和负向量**
+**零向量和负向量**      
 负向量和原向量 大小相等 方向相反
-``` c#
-print(Vector3.zero); //零向量
+``` c#      
+print(Vector3.zero); //零向量       
 
-print(Vector3.forward);
-print(-Vector3.forward);
+print(Vector3.forward); 
+print(-Vector3.forward);    
 ```
 
-**向量的模长**
-向量的长度 可以用来计算俩点距离
-``` c#
-//Vector3中提供了获取向量模长的成员属性
-//magnitude
-print(AB.magnitude);
-Vector3 C = new Vector3(5, 6, 7);
-print(C.magnitude);
+**向量的模长**      
+向量的长度 可以用来计算俩点距离     
+``` c#      
+//Vector3中提供了获取向量模长的成员属性     
+//magnitude     
+print(AB.magnitude);            
+Vector3 C = new Vector3(5, 6, 7);       
+print(C.magnitude);     
 
 print(Vector3.Distance(A, B)); //通过距离来计算
 //都可以 得到向量的长度
 
-```
-**单位向量** 
-归一化的向量 模长为一的向量 主要用来移动计算 单位向量*速度
-单位向量 = x/模长, y/模长, z/模长 同时缩小多少 之后模长就为1
-``` c#
-//Vector3中提供了获取单位向量的成员属性
-//normalized
-print(AB.normalized);
-print(AB / AB.magnitude); //自己算 也可以
-```
+```     
+**单位向量**            
+归一化的向量 模长为一的向量 主要用来移动计算 单位向量*速度                
+单位向量 = x/模长, y/模长, z/模长 同时缩小多少 之后模长就为 1                        
+``` c#      
+//Vector3中提供了获取单位向量的成员属性         
+//normalized                
+print(AB.normalized);       
+print(AB / AB.magnitude); //自己算 也可以           
+``` 
 
-#### 向量加减乘除
+#### 向量加减乘除           
 
-**向量 + 向量 = 新向量** 首尾相连
-首尾相连
-![](Image/2025-01-20-11-44-12.png)
+**向量 + 向量 = 新向量** 首尾相连       
+首尾相连        
+![](Image/2025-01-20-11-44-12.png)      
 
-**位置 + 向量 = 位置** 
-朝这个向量方向 移动了模长
+**位置 + 向量 = 位置**      
+朝这个向量方向 移动了模长       
 
-**位置 - 位置**
-得到一个向量 重点减起点
+**位置 - 位置**             
+得到一个向量 重点减起点             
 
-**向量 - 向量**
-向量相减得到新向量 头连头 尾连尾
+**向量 - 向量**         
+向量相减得到新向量 头连头 尾连尾        
 ![](Image/2025-01-20-11-48-06.png)  
 
-**位置 - 向量**
-朝这个向量反方向 移动了模长
+**位置 - 向量**     
+朝这个向量反方向 移动了模长     
 
-**向量乘除**
-用于模长的放大和缩小
-![](Image/2025-01-20-11-49-43.png)
+**向量乘除**                
+用于模长的放大和缩小                
+![](Image/2025-01-20-11-49-43.png)          
 
 ``` c#
-#region 知识点一 向量加法
+#region 知识点一 向量加法       
 //this.transform.position += new Vector3(1, 2, 3);
 this.transform.Translate(Vector3.forward * 5);
 #endregion
 
-#region 知识点二 向量减法
+#region 知识点二 向量减法       
 //this.transform.position -= new Vector3(1, 2, 3);
 this.transform.Translate(-Vector3.forward * 5);
 #endregion
 
-#region 知识点三 向量乘除标量
+#region 知识点三 向量乘除标量       
 this.transform.localScale *= 2; //本地缩放大小
-this.transform.localScale /= 2;
+this.transform.localScale /= 2;     
 ```
 
-#### 摄像机跟随物体移动**
+#### 摄像机跟随物体移动      
 摄像机移动 要放在LateUpdate中
 ``` c#
 
@@ -421,9 +440,9 @@ void LateUpdate()
 ![](Image/2025-01-20-12-04-28.png)
 ![](Image/2025-01-20-12-05-30.png)
 
-敌人在巡逻 面前是某一个角度范围 后发现你 简单的点乘只能是判断前面和后面
-所以需要公式推导
-![](Image/2025-01-20-12-17-39.png)
+敌人在巡逻 面前是某一个角度范围 后发现你 简单的点乘只能是判断前面和后面 
+所以需要公式推导        
+![](Image/2025-01-20-12-17-39.png)      
 ``` c#
 public Transform target;
 // update中
@@ -470,10 +489,10 @@ print("角度2-" + Vector3.Angle(this.transform.forward, target.position - this.
 #### 向量叉乘
 ![](Image/2025-01-20-15-08-37.png)
 ![](Image/2025-01-20-15-15-26.png)
-从哪里看 比如算Y y不参与计算 所以从z开始计算 再算z      
-叉乘出来的向量同时垂直于A和B的平面的 
+从哪里看 比如算Y y不参与计算 所以从z开始计算 再算z              
+叉乘出来的向量同时垂直于A和B的平面的        
 
-可以帮助我们判断另一个对象的左右位置关系
+可以帮助我们判断另一个对象的左右位置关系            
 
 ``` c#
 public Transform A;
@@ -507,14 +526,13 @@ else
 {
     print("A在B的左侧");
 }
-
 #endregion
 ```
 ### 插值运算
-线性插值 跟随运动 摄像机跟随
-![](Image/2025-01-20-15-46-26.png)
-![](Image/2025-01-20-15-46-34.png)
-球形插值 太阳东升西落, 导弹运动弧线 无畏契约火男闪光
+线性插值 跟随运动 摄像机跟随        
+![](Image/2025-01-20-15-46-26.png)      
+![](Image/2025-01-20-15-46-34.png)      
+球形插值 太阳东升西落, 导弹运动弧线 无畏契约火男闪光        
 ![](Image/2025-01-20-16-05-40.png)
 ![](Image/2025-01-20-16-06-14.png)
 ``` c#
@@ -567,17 +585,17 @@ C.position = Vector3.Slerp(Vector3.right * 10, Vector3.left * 10 + Vector3.up*0.
 ![](Image/2025-01-20-16-36-44.png)
 ![](Image/2025-01-20-16-37-33.png)
 
-**同一旋转的表现不唯一**
-一个物体旋转90° 
-另一个物体旋转 90°+360° 
-俩者的旋转实际是一致的 但是显示转动的角度是不一样的
+**同一旋转的表现不唯一**            
+一个物体旋转90°         
+另一个物体旋转 90° + 360°             
+俩者的旋转实际是一致的 但是显示转动的角度是不一样的         
 
-**万向节死锁**
-![](Image/2025-01-20-16-46-15.png)
-可以把Unity中的x轴改成90° 后
-现在旋转Y Z轴都会旋转Z轴
-界面上看到的X Y Z看到的是欧拉角 Unity用的是四元数
-![](Image/2025-01-20-16-50-22.png)
+**万向节死锁**      
+![](Image/2025-01-20-16-46-15.png)          
+可以把Unity中的x轴改成90° 后            
+现在旋转Y Z轴都会旋转Z轴            
+界面上看到的X Y Z看到的是欧拉角 Unity用的是四元数       
+![](Image/2025-01-20-16-50-22.png)      
 
 #### 四元数     
 ![](Image/2025-01-20-16-58-37.png)
@@ -624,13 +642,13 @@ print(q2.eulerAngles);
 //1.同一旋转的表示不唯一  四元数旋转后 转换后的欧拉角 始终是 -180~180度
 this.transform.rotation *= Quaternion.AngleAxis(1, Vector3.up); // 角度始终是-180~180度
 
-//2.万向节死锁 通过四元数旋转对象可以避免万向节死锁
-// 想改 x 轴90° 
-// 用四元数旋转不会出现 万向节死锁
-this.transform.rotation *= Quaternion.AngleAxis(1, Vector3.up); //是以自己的坐标系来转
+//2.万向节死锁 通过四元数旋转对象可以避免万向节死锁 
+// 想改 x 轴90°         
+// 用四元数旋转不会出现 万向节死锁      
+this.transform.rotation *= Quaternion.AngleAxis(1, Vector3.up); //是以自己的坐标系来转      
 this.transform.rotation *= Quaternion.AngleAxis(1, Vector3.forward);
 #endregion
-```
+```     
 
 #### 四元数的常用方法
 ![](Image/2025-01-20-17-26-35.png)
@@ -676,28 +694,267 @@ lookA.rotation = q; //完成转向 放在Update会一直跟随移动
 lookA.MyLookAt(lookB);
 #endregion
 ```
-#### 四元数计算
-**四元数相乘**
-俩个四元数相乘得到一个新的四元数 代表俩个旋转量的叠加 角度的叠加 
+#### 四元数计算     
+**四元数相乘**          
+俩个四元数相乘得到一个新的四元数 代表俩个旋转量的叠加 角度的叠加        
 相当于旋转 旋转的坐标系是自身坐标系
 ![](Image/2025-01-20-18-23-10.png)
 ![](Image/2025-01-20-18-27-33.png)
-**四元数乘向量** 相当于旋转向量
-飞机发射子弹 要计算每一个子弹的面朝向   
-用飞机的面朝向 * 四元数 来得到子弹面朝向        
-``` c#
-#region 知识点一 四元数相乘 物体的旋转 最常使用
-Quaternion q = Quaternion.AngleAxis(20, Vector3.up);
-this.transform.rotation *= q; //绕y转20°
+
+**四元数乘向量** 相当于旋转向量                  
+飞机发射子弹 要计算每一个子弹的面朝向                   
+用飞机的面朝向 * 四元数 来得到子弹面朝向                      
+``` c#      
+#region 知识点一 四元数相乘 物体的旋转 最常使用     
+Quaternion q = Quaternion.AngleAxis(20, Vector3.up);            
+this.transform.rotation *= q; //绕y转20°        
 this.transform.rotation *= q; //再转40°
-#endregion
+#endregion      
 
 #region 知识点二 四元数乘向量
 Vector3 v = Vector3.forward; //z轴朝向
-print(v);
-v = Quaternion.AngleAxis(45, Vector3.up) * v; // 只能是四元数乘以向量 不能反过来
-print(v); // 把这向量 绕着z轴 旋转了45°
-v = Quaternion.AngleAxis(45, Vector3.up) * v;
+print(v);       
+v = Quaternion.AngleAxis(45, Vector3.up) * v; // 只能是四元数乘以向量 不能反过来        
+print(v); // 把这向量 绕着Y轴 旋转了45°
+v = Quaternion.AngleAxis(45, Vector3.up) * v;       
 print(v);
 #endregion
 ```
+
+## Mono中的重要内容
+### 延迟（延时）函数
+指定一个函数过一会才执行
+```　c#
+#region 知识点一 什么是延迟函数
+//延迟函数顾名思义
+//就是会延时执行的函数
+//我们可以自己设定延时要执行的函数和具体延时的时间
+//是MonoBehaviour基类中实现好的方法
+#endregion
+
+#region 知识点二 延迟函数的使用
+//1.延迟函数
+//Invoke
+//参数一：函数名 字符串
+//参数二：延迟时间 秒为单位
+private void DelayDoSomething()
+{
+    print("延时执行的函数");
+
+    TestFun(2);
+
+    t.TestFun();
+}
+Invoke("DelayDoSomething", 1); // 1s后执行该函数 
+
+//注意：
+//1-1.延时函数第一个参数传入的是函数名字符串
+//1-2.延时函数没办法传入参数 只有包裹一层 
+// 注意如果是有参数的也无法调用 
+// 所以只能再次包裹一层 间接调用 TestFun(2);
+//1-3.函数名必须是该脚本上申明的函数
+// 如果想调用其他脚本的函数 只能传进来 包裹一层 t.TestFun();
+
+//2.延迟重复执行函数
+//InvokeRepeating
+//参数一：函数名字符串
+//参数二：第一次执行的延迟时间
+//参数三：之后每次执行的间隔时间
+InvokeRepeating("DelayRe", 5, 1); //等5s执行第一次函数 后面等1s
+
+//注意：
+//它的注意事项和延时函数一致
+
+//3.取消延迟函数
+//3-1取消该这个脚本上的所有延时函数执行
+//CancelInvoke();
+
+//3-2指定函数名取消 如果找不到不会报错
+//只要取消了指定延迟 不管之前该函数Invoke开启了多少次 延迟执行 都会统一取消
+//CancelInvoke("DelayDoSomething");
+
+//4.判断是否有延迟函数
+if( IsInvoking() ) //返回bool值
+{
+    print("存在延迟函数");
+}
+if( IsInvoking("DelayDoSomething") )
+{
+    print("存在延迟函数DelayDoSomething");
+}
+#endregion
+
+#region 知识点三 延迟函数受对象失活销毁影响
+//脚本依附对象失活 或者 脚本自己失活
+//延迟函数可以继续执行 不会受到影响的
+
+//脚本依附对象销毁或者脚本移除
+//延迟函数无法继续执行
+// 所以需要在 激活失活生命周期中 去开启 停止
+private void OnEnable()
+{
+   //对象激活 的生命周期函数中 开启延迟（重复执行的延迟）
+}
+
+private void OnDisable()
+{
+    //对象失活 的生命周期函数中 停止延迟
+}
+#endregion
+```
+
+### 协同程序
+``` c#
+#region 知识点一 Unity是否支持多线程？
+//首先要明确一点
+//Unity是支持多线程的
+//只是新开线程无法访问Unity相关对象的内容
+
+//注意：Unity中的多线程 要记住关闭
+
+Thread t;
+t = new Thread(Test); //这个线程是和Unity编辑器共生的 会一直打印
+//t.Start(); //开启线程 
+void Test()
+{
+    print(this.transform.Translate()); //不允许使用
+    while(true)
+    {
+        thread.Sleep(1000);
+        print("11");
+        queue.Enqueue(new Vector3(1,2,3)); //模拟复杂计算放入公共容器中
+    }
+}
+private void OnDestroy() //关闭线程
+{
+    t.Abort();//关闭线程
+    t = null;
+}
+// Unity主要使用多线程来做寻路算法 和 网络
+//申明一个变量作为一个公共内存容器 Unity线程和副线程公用
+Queue<Vector3> queue = new Queue<Vector3>();
+//然后在Update中判断queue.Count>0 
+//取出数据
+
+#endregion
+
+#region 知识点二 协同程序是什么？
+//协同程序简称协程
+//它是“假”的多线程，它不是多线程
+
+//它的主要作用
+//将代码分时执行，不卡主线程
+//简单理解，是把可能会让主线程卡顿的耗时的逻辑分时分步执行
+
+//主要使用场景:     
+//异步加载文件
+//异步下载文件
+//场景异步加载
+//批量创建时防止卡顿
+#endregion
+
+#region 知识点三 协同程序和线程的区别
+//新开一个线程是独立的一个管道，和主线程并行执行
+//新开一个协程是在原线程之上开启，进行逻辑 分时分步 执行
+//把一个函数分为了三部分 先执行第一部分 看结果 来决定执不执行下一部分
+//不执行 就会挂起 等到下一帧时在进行判断 是否要执行下一部分
+#endregion
+
+#region 知识点四 协程的使用
+//继承MonoBehavior的类 都可以开启 协程函数
+//第一步：申明协程函数
+//  协程函数2个关键点
+//  1-1返回值为IEnumerator类型及其子类
+//  1-2函数中通过 yield return 返回值; 进行返回
+
+//关键点一： 协同程序（协程）函数 返回值 必须是 IEnumerator或者继承它的类型 
+IEnumerator MyCoroutine(int i, string str)
+{
+    print(i);
+    //关键点二： 协程函数当中 必须使用 yield return 语法糖 进行返回
+    yield return null; //下一帧执行
+    print(str);
+    yield return new WaitForSeconds(1f); //  切分部分
+    //在这句代码 之上的逻辑进入函数可以直接执行 之下的逻辑 需要 等待1s 
+    print("2");
+    yield return new WaitForFixedUpdate();//等待下一个固定物理帧更新时执行
+    print("3");
+    //主要会用来 截图时 会使用 保证画面正常
+    yield return new WaitForEndOfFrame(); //等待摄像机和GUI渲染完成后执行
+    
+    yield break; //跳出协程 下面的代码不再执行了
+
+    //主线程中写死循环会被卡死 但是在协程中可以
+    while(true)
+    {
+        print("5"); //第一次进来 打印5 每一次到5s就再打印一次
+        yield return new WaitForSeconds(5f); //然后主循环接着跑 检测5s到了没 
+    }
+}
+
+//第二步：开启协程函数
+//协程函数 是不能够 直接这样去执行的！！！！！！！
+//这样执行没有任何效果
+MyCoroutine(1, "123"); //没有任何效果
+
+//常用开启方式
+//IEnumerator ie = MyCoroutine(1, "123");
+//StartCoroutine(ie); //这种也可以开启
+
+Coroutine c1 = StartCoroutine( MyCoroutine(1, "123") ); //开启协程函数
+//Coroutine c2 = StartCoroutine( MyCoroutine(1, "123")); //可以同时开启多个协程
+//Coroutine c3 = StartCoroutine( MyCoroutine(1, "123"));
+
+//第三步：关闭协程
+//关闭所有协程
+StopAllCoroutines();
+
+//关闭指定协程
+StopCoroutine(c1);
+#endregion
+
+#region 知识点五 yield return 不同内容的含义
+决定了后面的逻辑在什么时刻去执行
+//1.下一帧执行
+//yield return 数字;
+//yield return null;
+//在Update和LateUpdate之间执行
+
+//2.等待指定秒后执行
+//yield return new WaitForSeconds(秒);
+//在Update和LateUpdate之间执行
+
+//3.等待下一个固定物理帧更新时执行
+//yield return new WaitForFixedUpdate();
+//在FixedUpdate和碰撞检测相关函数之后执行
+
+//4.等待摄像机和GUI渲染完成后执行
+//yield return new WaitForEndOfFrame();
+//在LateUpdate之后的渲染相关处理完毕后之后
+
+//5.一些特殊类型的对象 比如异步加载相关函数返回的对象
+//之后讲解 异步加载资源 异步加载场景 网络加载时再讲解
+//一般在Update和LateUpdate之间执行
+
+//6.跳出协程
+//yield break;
+#endregion
+
+#region 知识点六 协程受对象和组件失活销毁的影响
+//协程开启后
+//组件和物体销毁，协程不执行
+//物体失活协程不执行，组件失活协程执行
+#endregion
+
+#region 总结
+//1.Unity支持多线程，只是新开线程无法访问主线程中Unity相关内容
+//  一般主要用于进行复杂逻辑运算或者网络消息接收等等
+//  注意：Unity中的多线程一定记住关闭
+//2.协同程序不是多线程，它是将线程中逻辑进行分时执行，避免卡顿
+//3.继承MonoBehavior的类都可以使用协程
+//4.开启协程方法、关闭协程方法
+//5.yield return 返回的内容对于我们的意义
+//6.协程只有当组件单独失活时不受影响，其它情况协程会停止
+#endregion
+
+
