@@ -1,53 +1,56 @@
-- [六大基础组件](#六大基础组件)
-  - [Canvas组件](#canvas组件)
-    - [覆盖模式 Overlay](#覆盖模式-overlay)
-    - [摄像机模式 Camera](#摄像机模式-camera)
-    - [3D模式 World Space](#3d模式-world-space)
-  - [CanvasScaler组件](#canvasscaler组件)
-    - [恒定像素模式](#恒定像素模式)
-    - [缩放模式](#缩放模式)
-      - [Expand](#expand)
-      - [Shrink](#shrink)
-      - [Match Width Or Height](#match-width-or-height)
-    - [恒定物理模式](#恒定物理模式)
-    - [特殊模式3D模式](#特殊模式3d模式)
-  - [Graphic Raycaster](#graphic-raycaster)
-  - [Eventsystem 和 Standalone Input Module](#eventsystem-和-standalone-input-module)
-  - [RectTransform组件](#recttransform组件)
-- [三大基础控件](#三大基础控件)
-  - [Image](#image)
-  - [Text](#text)
-    - [富文本](#富文本)
-    - [边缘线和阴影](#边缘线和阴影)
-    - [代码控制](#代码控制)
-  - [RawImage](#rawimage)
-- [组合控件](#组合控件)
-  - [Button](#button)
-  - [Toggle](#toggle)
-  - [InputField 文本输入控件](#inputfield-文本输入控件)
-  - [Slinder](#slinder)
-  - [Slider滑动条控件](#slider滑动条控件)
-  - [ScrollBar滚动条](#scrollbar滚动条)
-  - [ScrollView/Rect](#scrollviewrect)
-  - [代码控制](#代码控制-1)
-  - [Dropdown](#dropdown)
-  - [图集制作](#图集制作)
-- [UI事件监听接口](#ui事件监听接口)
-- [EventTrigger事件触发器](#eventtrigger事件触发器)
-- [屏幕坐标转UI相对坐标](#屏幕坐标转ui相对坐标)
-- [Mask 遮罩](#mask-遮罩)
-- [模型和粒子显示在UI之前](#模型和粒子显示在ui之前)
-  - [粒子特效显示在UI之前](#粒子特效显示在ui之前)
-  - [异形按钮](#异形按钮)
-    - [如何让异形按钮能够准确点击](#如何让异形按钮能够准确点击)
-- [自动布局](#自动布局)
-  - [布局元素的布局属性](#布局元素的布局属性)
-  - [水平垂直布局组件](#水平垂直布局组件)
-  - [网格布局组件](#网格布局组件)
-  - [内容大小适配器](#内容大小适配器)
-  - [宽高比适配器](#宽高比适配器)
-  - [Canvas Group](#canvas-group)
+- [UGUI](#ugui)
+  - [六大基础组件](#六大基础组件)
+    - [Canvas组件](#canvas组件)
+      - [覆盖模式 Overlay](#覆盖模式-overlay)
+      - [摄像机模式 Camera](#摄像机模式-camera)
+      - [3D模式 World Space](#3d模式-world-space)
+    - [CanvasScaler组件](#canvasscaler组件)
+      - [恒定像素模式](#恒定像素模式)
+      - [缩放模式](#缩放模式)
+        - [Expand](#expand)
+        - [Shrink](#shrink)
+        - [Match Width Or Height](#match-width-or-height)
+      - [恒定物理模式](#恒定物理模式)
+      - [特殊模式3D模式](#特殊模式3d模式)
+    - [Graphic Raycaster](#graphic-raycaster)
+    - [Eventsystem 和 Standalone Input Module](#eventsystem-和-standalone-input-module)
+    - [RectTransform组件](#recttransform组件)
+  - [三大基础控件](#三大基础控件)
+    - [Image](#image)
+    - [Text](#text)
+      - [富文本](#富文本)
+      - [边缘线和阴影](#边缘线和阴影)
+      - [代码控制](#代码控制)
+    - [RawImage](#rawimage)
+  - [组合控件](#组合控件)
+    - [Button](#button)
+    - [Toggle](#toggle)
+    - [InputField 文本输入控件](#inputfield-文本输入控件)
+    - [Slinder](#slinder)
+    - [Slider滑动条控件](#slider滑动条控件)
+    - [ScrollBar滚动条](#scrollbar滚动条)
+    - [ScrollView/Rect](#scrollviewrect)
+    - [代码控制](#代码控制-1)
+    - [Dropdown](#dropdown)
+    - [DrawCall](#drawcall)
+    - [图集制作](#图集制作)
+  - [UI事件监听接口](#ui事件监听接口)
+  - [EventTrigger事件触发器](#eventtrigger事件触发器)
+  - [屏幕坐标转UI相对坐标](#屏幕坐标转ui相对坐标)
+  - [Mask 遮罩](#mask-遮罩)
+  - [模型和粒子显示在UI之前](#模型和粒子显示在ui之前)
+    - [粒子特效显示在UI之前](#粒子特效显示在ui之前)
+    - [异形按钮](#异形按钮)
+      - [如何让异形按钮能够准确点击](#如何让异形按钮能够准确点击)
+  - [自动布局](#自动布局)
+    - [布局元素的布局属性](#布局元素的布局属性)
+    - [水平垂直布局组件](#水平垂直布局组件)
+    - [网格布局组件](#网格布局组件)
+    - [内容大小适配器](#内容大小适配器)
+    - [宽高比适配器](#宽高比适配器)
+    - [Canvas Group](#canvas-group)
 
+# UGUI
 ## 六大基础组件
 **使用UGUI**
 ![](Image/2025-02-04-14-09-37.png)
@@ -586,6 +589,44 @@ dd.onValueChanged.AddListener((index) => {
     print(index);
 });
 ```
+### DrawCall
+#region 知识点一 DrawCall的概念
+//字面理解DrawCall  就是 绘制呼叫的意思  表示 CPU（中央处理器）通知GPU（图形处理器-显卡）
+
+//DrawCall 概念
+//就是CPU(处理器)准备好渲染数据（顶点，纹理，法线，Shader等等）后
+//告知GPU(图形处理器-显卡)开始渲染（将命令放入命令缓冲区）的命令
+
+//简单来说：一次DrawCall就是 CPU准备好渲染数据通知 GPU渲染的这个过程
+
+//如果游戏中DrawCall数量较高会影响CPU的效率
+//最直接的感受就是游戏会卡顿
+
+//举例说明  以拷贝文件来进行类比
+//假设我们创建10000个小文件，每个文件大小为1kb，然后把这些文件拷贝到另一个文件夹中
+//你会发现，即使这些文件加起来不超过10MB，但是拷贝花费的时间是很长的
+//如果我们单独创建1个10MB的文件拷贝到另一个文件夹，基本可以瞬间拷贝完毕
+//为什么会这样呢？
+//因为每一个文件赋值动作都需要很多额外的操作，比如分配内存，创建数据等等
+//这些操作就会带来一些额外的性能开销
+//简单理解 文件越多额外开销就越大
+
+//渲染过程和上面的例子很类似，每次DrawCall，CPU都需要准备很多数据发送给GPU
+//那么如果DrawCall越多那么额外开销就越大，其实GPU的渲染效率是很强大的，往往影响渲染效率的
+//都是因为CPU提交命令的速度
+//如果DrawCall 太多CPU就会把大量时间花在提交DrawCall上 造成CPU过载，游戏卡顿
+#endregion
+
+#region 知识点二 如何降低DrawCall数量
+//在UI层面上
+//小图合大图——>即多个小DrawCall变一次大DrawCall
+#endregion
+
+#region 知识点三 制作UI时降低DrawCall的技巧
+//1.通过NGUI Panel上提供的DrawCall查看工具
+//2.注意不同图集之间的层级关系
+//3.注意Label的层级关系
+#endregion
 
 ### 图集制作
 UGUI和NGUI使用上最大的不同是 NGUI使用前就要打图集
