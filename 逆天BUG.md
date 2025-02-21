@@ -17,20 +17,12 @@ F5跳过 F10下一步 不进入 F11进入内部 可以拖动来回到之前步�
 重点是在于别放弃哟！
 
 ``` c#
-//这个方法的作用是处理输入的“死区”。
-//死区是指当输入值非常小（比如摇杆的中心点）时，不考虑其影响，避免微小的噪声值引起不必要的移动
-public virtual Vector3 GetAxisWithCrossDeadZone(Vector2 axis)
-{
-    // 获取死区值
-    var deadzone = InputSystem.settings.defaultDeadzoneMin;
-
-    // 处理水平轴（x） 大于死区进行下一步
-    axis.x = Mathf.Abs(axis.x) > deadzone ? RemapToDeadzone(axis.x, deadzone) : 0;
-    // 处理垂直轴（y） **这一步复制的上面代码 axis.x **
-    axis.y = Mathf.Abs(axis.y) > deadzone ? RemapToDeadzone(axis.y, deadzone) : 0;
-
-    // 将处理后的 x 和 y 转换为一个 Vector3，其中 y 变成了 z 分量
-    // 因为你键盘的输入是2D的 不参与y轴 所以 2D要转成3D
-    return new Vector3(axis.x, 0, axis.y); 
-}
+axis.x = Mathf.Abs(axis.x) > deadzone ? RemapToDeadzone(axis.x, deadzone) : 0;
+// 处理垂直轴（y） **这一步复制的上面代码 axis.x **
+axis.y = Mathf.Abs(axis.y) > deadzone ? RemapToDeadzone(axis.y, deadzone) : 0;
 ```
+
+## 2. 奥德赛项目向后转会飞起来 1个小时
+在Brake到Backflip时 会给竖直方向一个速度 不知道为什么 
+原来是后空翻 跳一下来转到后面 不然不顺畅
+调试还是能发现问题
