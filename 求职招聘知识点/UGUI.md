@@ -9,6 +9,7 @@
   - [3. GPU Instancing](#3-gpu-instancing)
   - [4. SRP Batcher](#4-srp-batcher)
 - [RectTransform和Transform](#recttransform和transform)
+- [在编辑场景时将GameObject设置为Static有何作⽤?](#在编辑场景时将gameobject设置为static有何作)
 
 
 ## Canvas画布
@@ -85,9 +86,7 @@ https://blog.csdn.net/ww1351646544/article/details/139678759
 将相同材质 并且 不动 的Mesh合并 成一个 大Mesh 
 然后由 cpu合并为一次批次发送给GPU处理
 
-在编辑场景时将GameObject设置为Static有何作⽤？
-答：设置游戏对象为Static将会剔除(或禁⽤)⽹格对象当这些部分被静态物体挡住⽽不可⻅时。因 
-此,在你的场景中的所有不会动的物体都应该标记为Static。
+
 
 缺点 物体要是静态的
 把所有的网格合并在一起 如果1000棵树 合并成一个网格
@@ -134,3 +133,17 @@ RectTransform在此基础上加入了矩阵相关 将UI元素当作矩形来处�
 RectTransform是继承transform的,它是针对unity中ui的,具体在表现上可以这样看待,凡是在canvas组件下或者具有canvas组件的2d对象,他都是recttransform组件,那些在3d空间下没有不受canvas控制的对象都是transfrom组件。       
 关于recttransform的坐标设置,我们在设置ui对象的坐标的时候设置的都是recttransform的坐标,他是相对于自身锚点的,和父对象的中心点没有关系应该这样设置。    
 RectTransform组件还有一个anchoredPosition字段,它是忽略z坐标的,一般使用anchoredPosition3D 进行设置     
+
+
+
+
+
+## 在编辑场景时将GameObject设置为Static有何作⽤?
+在你的场景中的所有不会动的物体都应该标记为Static。
+Unity中物体的static属性的作用
+
+优化渲染性能:当物体被标记为static时,Unity会在游戏运行时将其视为静止的物体,这意味着这些物体的渲染信息不会随着每一帧的更新而变化。因此,Unity可以提前计算并缓存这些物体的光照和遮挡信息,从而减少在运行时对GPU的调用次数,提高游戏运行的流畅度。
+
+光照贴图优化:对于标记为static的物体,Unity会在游戏启动时进行光照贴图的烘焙(Baking)。这意味着物体的光照效果会在游戏运行时被预先计算并存储,从而避免了实时计算光照,减少了计算量,进一步提升了性能。
+
+遮挡剔除:在标记为static的物体上,Unity可以进行遮挡剔除(Occlusion Culing)。这意味着如果某个静态物体被其他物体遮挡Unity可以跳过对该物体的渲染,进一步减少渲染负载。
