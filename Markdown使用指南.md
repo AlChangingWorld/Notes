@@ -5,6 +5,7 @@
 - [超链接](#超链接)
 - [插入图片](#插入图片)
 - [插入代码](#插入代码)
+- [关闭 Markdown 文件的自动预览功能](#关闭-markdown-文件的自动预览功能)
 
 
 ## 目录
@@ -50,3 +51,16 @@ Ctrl + Alt + V 插入指定位置图片
 print(helle world);
 
 ```
+
+## 关闭 Markdown 文件的自动预览功能
+
+在 VS Code 中，关闭 Markdown 文件的自动预览功能可以通过以下步骤实现：
+
+使用快捷键 Ctrl + ,（Windows/Linux）或 Cmd + ,（Mac）打开设置。
+或者通过菜单：文件 > 首选项 > 设置（Windows/Linux）或 Code > 首选项 > 设置（Mac）。
+
+在搜索栏中输入 markdown.preview.autoShowPreviewToSide。
+
+找到 Markdown: Preview Auto Show Preview To Side 选项，取消勾选或将其设置为 false。
+
+完成这些步骤后，打开 .md 文件时，右侧将不再自动显示预览。
