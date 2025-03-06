@@ -34,6 +34,7 @@
     - [Dropdown](#dropdown)
     - [DrawCall](#drawcall)
     - [图集制作](#图集制作)
+  - [创建图集](#创建图集)
   - [UI事件监听接口](#ui事件监听接口)
   - [EventTrigger事件触发器](#eventtrigger事件触发器)
   - [屏幕坐标转UI相对坐标](#屏幕坐标转ui相对坐标)
@@ -633,51 +634,45 @@ dd.onValueChanged.AddListener((index) => {
 #endregion
 
 ### 图集制作
-UGUI和NGUI使用上最大的不同是 NGUI使用前就要打图集
-UGUI可以再之后再打图集
+UGUI和NGUI使用上最大的不同是 NGUI使用前就要打图集       
+UGUI可以再之后再打图集              
 
-//打图集的目的就是减少DrawCall 提高性能
-//具体DrawCall是什么在NGUI课程中已经详细讲解
-//该节课是免费课 即使没有购买 也可以前往观看
 
-//简单回顾DrawCall
-//DC就是CPU通知GPU进行一次渲染的命令
-//如果DC次数较多会导致游戏卡顿
-//我们可以通过打图集，将小图合并成大图，将本应n次的DC变成1次DC来提高性能
-#endregion
+DrawCall就是CPU通知GPU进行一次渲染的命令
+如果DC次数较多会导致游戏卡顿
+我们可以通过打图集，将小图合并成大图，将本应n次的DC变成1次DC来提高性能
 
-**在Unity中打开自带的打图集功能**
-在工程设置面板中打开功能
-Edit——>Project Setting——>Editor
-Sprite Packer(精灵包装器, 可以通过Unity自带图集工具生成图集)
-Disabled: 默认设置,不会打包图集
 
-//Enabled For Builds（Legacy Sprite Packer）：Unity仅在构建时打包图集，在编辑模式下不会打包图集
-//Always Enabled（Legacy Sprite Packer）：Unity在构建时打包图集，在编辑模式下运行前会打包图集
+**在Unity中打开自带的打图集功能**                    
+在工程设置面板中打开功能                    
+Edit——>Project Setting——>Editor                     
+Sprite Packer(精灵包装器, 可以通过Unity自带图集工具生成图集)                
+Disabled: 默认设置,不会打包图集                      
+``` c#
+//Enabled For Builds（Legacy Sprite Packer）：Unity仅在构建时打包图集，在编辑模式下不会打包图集         
+//Always Enabled（Legacy Sprite Packer）：Unity在构建时打包图集，在编辑模式下运行前会打包图集       
+//Legacy Sprite Packer传统打包模式 相对下面两种模式来说 多了一个设置图片之间的间隔距离      
+//Padding Power:选择打包算法在计算打包的精灵之间以及精灵与生成的图集边缘之间的间隔距离      
+//              这里的数字 代表2的n次方         
+//Enabled For Build：Unity进在构建时打包图集，在编辑器模式下不会打包 使用下面俩种           
+//Always Enabled：Unity在构建时打包图集，在编辑模式下运行前会打包图集           
+```        
 
-//Legacy Sprite Packer传统打包模式 相对下面两种模式来说 多了一个设置图片之间的间隔距离
-//Padding Power:选择打包算法在计算打包的精灵之间以及精灵与生成的图集边缘之间的间隔距离
-//              这里的数字 代表2的n次方
+## 创建图集             
+右键Create-Sprite Atlas                     
+Allow Rotation 不要勾选 运行小图在大图中旋转 UI中可能出问题         
+Tight Packing 不要勾选 把小图中透明的部分删去了                      
 
-//Enabled For Build：Unity进在构建时打包图集，在编辑器模式下不会打包 使用下面俩种
-//Always Enabled：Unity在构建时打包图集，在编辑模式下运行前会打包图集
-#endregion
+参数去看一下核心中的知识                
 
-**创建图集**
-右键Create-Sprite Atlas 
-Allow Rotation 不要勾选 运行小图在大图中旋转 UI中可能出问题
-Tight Packing 不要勾选 把小图中透明的部分删去了 
+![](Image/2025-02-05-18-06-46.png)              
+在这里看Draw Call的数量                     
+Batches批次处理 默认有俩次      
+在图集中加入这些图 然后运行 3张就会变成一张图 降低了Draw call       
+![](Image/2025-02-05-18-08-34.png)                  
 
-参数去看一下核心中的知识
-
-![](Image/2025-02-05-18-06-46.png)
-在这里看Draw Call的数量
-Batches批次处理 默认有俩次
-在图集中加入这些图 然后运行 3张就会变成一张图 降低了Draw call
-![](Image/2025-02-05-18-08-34.png)
-
-注意在中间插入一张图 和图集中的图有重叠 会打断图集 image text也会打断
-![](Image/2025-02-05-18-11-21.png)
+注意在中间插入一张图 和图集中的图有重叠 会打断图集 image text也会打断               
+![](Image/2025-02-05-18-11-21.png)          
 
 **代码加载**
 ``` c#
@@ -878,21 +873,21 @@ public void OnDrag(PointerEventData eventData)
 ```
 
 ## Mask 遮罩
-遮罩是什么
-在不改变图片的情况下
-让图片在游戏中只显示其中的一部分
-制作一个不规则的图形
+遮罩是什么          
+在不改变图片的情况下            
+让图片在游戏中只显示其中的一部分        
+制作一个不规则的图形            
 
-之前的Scroll View中就有这个组件Mask遮罩部分图片
+之前的Scroll View中就有这个组件Mask遮罩部分图片     
 
-**遮罩如何使用**
-实现遮罩效果的关键组件时Mask组件
-通过在父对象上添加Mask组件即可遮罩其子对象
+**遮罩如何使用**            
+实现遮罩效果的关键组件时Mask组件        
+通过在父对象上添加Mask组件即可遮罩其子对象               
 
-注意：
-1.想要被遮罩的Image需要勾选Maskable
-2.只要父对象添加了Mask组件，那么所有的UI子对象都会被遮罩
-3.遮罩父对象图片的制作，不透明的地方显示，透明的地方被遮罩
+注意：          
+1.想要被遮罩的Image需要勾选Maskable             
+2.只要父对象添加了Mask组件，那么所有的UI子对象都会被遮罩        
+3.遮罩父对象图片的制作，不透明的地方显示，透明的地方被遮罩          
 
 ## 模型和粒子显示在UI之前
 

@@ -8,11 +8,17 @@
 	- [Lua语法](#lua语法)
 		- [输出和注释](#输出和注释)
 		- [变量](#变量)
+			- [type()](#type)
 			- [nil](#nil)
-			- [number 所有的数值都是number](#number-所有的数值都是number)
+			- [number](#number)
 			- [string](#string)
 			- [boolean](#boolean)
 		- [字符串](#字符串)
+		- [获取字符串的长度](#获取字符串的长度)
+		- [字符串多行打印](#字符串多行打印)
+		- [字符串拼接](#字符串拼接)
+		- [别的类型转字符串](#别的类型转字符串)
+		- [字符串提供的公共方法](#字符串提供的公共方法)
 		- [运算符](#运算符)
 			- [算数运算符](#算数运算符)
 			- [条件运算符](#条件运算符)
@@ -23,15 +29,32 @@
 		- [循环语句](#循环语句)
 		- [函数](#函数)
 		- [复杂数据类型 table](#复杂数据类型-table)
+		- [table中的#](#table中的)
 		- [迭代器](#迭代器)
+			- [ipairs](#ipairs)
+			- [pairs](#pairs)
 		- [字典](#字典)
 		- [类和结构体](#类和结构体)
+			- [冒号](#冒号)
 		- [表的公共操作](#表的公共操作)
+			- [**insert插入**](#insert插入)
+			- [**remove移除**](#remove移除)
+			- [sort排序](#sort排序)
+			- [拼接concat](#拼接concat)
 		- [多脚本执行](#多脚本执行)
+		- [大G表](#大g表)
 		- [特殊用法 多变量赋值 三目运算符](#特殊用法-多变量赋值-三目运算符)
 		- [协程](#协程)
 		- [元表](#元表)
+			- [\_\_tostring](#__tostring)
+			- [\_\_call 把子表当作函数调用](#__call-把子表当作函数调用)
+			- [运算符重载](#运算符重载)
+			- [\_\_index和\_\_newIndex](#__index和__newindex)
 		- [面向对象](#面向对象)
+			- [封装](#封装)
+			- [继承](#继承)
+			- [多态](#多态)
+		- [一个完整的类](#一个完整的类)
 		- [自带库](#自带库)
 		- [垃圾回收](#垃圾回收)
 		- [单例模式基类](#单例模式基类)
@@ -150,22 +173,16 @@ Instatiate(obj);
 **ctrl+b** 运行
 
 ### 输出和注释
-
 ``` lua
 --单行注释 print打印函数 
 --lua语句 可以省略分号
-print("你好世界")
-print("唐老狮欢迎你")
-
+print("hello,world")
 --[[
-多行
-注释
+多行注释
 ]]
 
 --[[
-第二种
-多行
-注释
+多行注释
 ]]--
 
 --[[
@@ -176,100 +193,102 @@ print("唐老狮欢迎你")
 ```
 
 ### 变量
---lua当中的简单变量类型
--- nil number string boolean
---lua中所有的变量申明 都不需要申明变量类型 他会自动的判断类型
---类似C# 里面的 var
---lua中的一个变量 可以随便赋值 ——自动识别类型
---通过 type 函数 返回值时string 我们可以得到变量的类型
+lua当中的简单变量类型
+**nil** **number** **string** **boolean**
+lua中所有的变量申明 都不需要申明变量类型 他会**自动的判断类型**
+lua中的一个变量 可以随便赋值 **自动识别类型**
 
+lua中使用没有声明过的变量 **不会报错** 默认值 是**nil**
 ``` lua
---lua中使用没有声明过的变量 
---不会报错 默认值 是nil
 print(b)
+```
+#### type()
+通过 type 函数 返回值是string 我们可以得到变量的类型
+``` lua
+a = nil
+print(type(type(a))) --print输出string类型
 ```
 ####  nil
 ``` lua
-print("**********nil************")
 a = nil
-print(a)
-print(type(a))
-print(type(type(a))) --print输出string类型
+print(a) --nil
+print(type(a)) --nil
 ```
-#### number 所有的数值都是number
+#### number 
+**所有的数值都是number**
 ``` lua
-print("**********number************")
 a = 1
-print(a)
-print(type(a))
+print(a)	--1
+print(type(a)) --number
 a = 1.2
 print(a)
 print(type(a)) 
 ```
-
 #### string
+字符串的声明 使用单引号或者双引号包裹
+lua里 没有char类型
 ``` lua
-print("**********string************")
 a = "12312"
 print(a)
 print(type(a))
---字符串的声明 使用单引号或者双引号包裹
---lua里 没有char
 a = '123'
 print(a)
 print(type(a))
 ```
-
 #### boolean
 ``` lua
-print("**********boolean************")
 a = true
-print(a)
+print(a) --true
 a = false
 print(a)
-print(type(a))
+print(type(a)) --boolean
+print(type(a)=="nil") --需要==字符串 因为type()返回的是字符串类型
 ```
 
 ### 字符串
 ``` lua
-print("**********字符串************")
 str = "双引号字符串"
 str2 = '单引号字符串'
-
---获取字符串的长度
-print("**********字符串长度************")
+```
+### 获取字符串的长度
+**一个汉字** 占**3个长度**
+**英文字符** 占**1个长度**
+``` lua
 s = "aBcdEfG字符串"
---一个汉字占3个长度
---英文字符 占1个长度
-print(#s)
-
-print("**********字符串多行打印************")
+print(#s) -- # 来计算字符串的长度，放在字符串前面，
+```
+### 字符串多行打印
+``` lua
 --lua中也是支持转义字符的
 print("123\n123")
 
 s = [[我是
-唐
+g
 老师
 ]]
 print(s)
-
-print("**********字符串拼接************")
---字符串拼接 通过..
+```
+### 字符串拼接
+**通过..**
+``` lua
 print( "123" .. "456" )
 s1 = 111
 s2 = 111
 print(s1 .. s2)
 
-print(string.format("我是唐老狮，我今年%d岁了", 18))
+print(string.format("我是，我今年%d岁了", 18))
 --%d :与数字拼接
 --%a：与任何字符拼接
 --%s：与字符配对
 --.......
-print("**********别的类型转字符串************")
+```
+### 别的类型转字符串
+``` lua
 a = true
 print(tostring(a))
-
-print("**********字符串提供的公共方法************")
+```
+### 字符串提供的公共方法
+``` lua
 str = "abCdefgCd"
 --小写转大写的方法
 print(string.upper(str))
@@ -280,26 +299,31 @@ print(string.reverse(str))
 --字符串索引查找
 print(string.find(str, "Cde"))
 --截取字符串
-print(string.sub(str, 3, 4))
+print(string.sub(str, 3, 4)) --中文字符是3个哟
 --字符串重复
-print(string.rep(str, 2))
+print(string.rep(str, 2)) --重复俩遍str
 --字符串修改
-print(string.gsub(str, "Cd", "**"))
+print(string.gsub(str, "Cd", "**")) --输出 (他)它是高梓润,它今年25岁了  2--表示替换了俩次
 
 --字符转 ASCII码
 a = string.byte("Lua", 1)
 print(a)
 --ASCII码 转字符
 print(string.char(a))
+
+--在对一个数字字符串上进行算术操作时，Lua 会尝试将这个数字字符串转成一个数字
+ print("2" + 6) --8.0
+print("2" + "6") --8.0
+print("2 + 6")-- 2 + 6
+print("-2e2" * "6")-- -1200.0
 ```
 
-### 运算符
-#### 算数运算符
--- + - * / % ^
--- 没有自增自减 ++ --
--- 没有复合运算符 += -= /= *= %=
---字符串 可以进行 算数运算符操作 会自动转成number
-
+### 运算符	
+#### 算数运算符				
+-- + - * / % ^															
+**没有自增自减** ++ --													
+**没有复合运算符** += -= /= *= %=										
+字符串 可以进行	 算数运算符操作 会自动转成number							
 ``` lua
 print("加法运算" .. 1 + 2)
 a = 1
@@ -316,7 +340,7 @@ print("123.4" - 1)
 print("乘法运算" .. 1 * 2)
 print("123.4" * 2)
 
-print("除法运算" .. 1 / 2)
+print("除法运算" .. 1 / 2) --不会舍去 是个浮点数
 print("123.4" / 2)
 
 print("取余运算" .. 1 % 2)
@@ -324,9 +348,8 @@ print("123.4" % 2)
 
 --^ lua中 该符号 是幂运算
 print("幂运算" .. 2 ^ 5)
-print("123.4" ^ 2)
+print("123.4" ^ 2) --15227.56
 ```
-
 #### 条件运算符
 ``` lua
 -- > < >= <= == ~=
@@ -338,28 +361,33 @@ print(3==1)
 --不等于 是 ~=
 print(3~=1)
 ```
-
 #### 逻辑运算符
+&&  ||  !   “短路”
+and  or  not  lua中 也遵循逻辑运算的 “短路” 规则
 ``` lua
---&&  ||  !   “短路”
---and  or  not  lua中 也遵循逻辑运算的 “短路” 规则
-print( true and false)
+print( true and false)		
 print( true and true)
 print( false and true)
 
 print( true or false)
 print( false or false)
+
 print( not true)
 ```
-
 #### 位运算符
-``` lua
 -- & | 不支持位运算符 需要我们自己实现
-```
-
-#### 三目运算符
+	
+#### 三目运算符	
+lua中 也不支持 三目运算符			
+可以自己通过短路实现一个			
 ``` lua
--- ? :  lua中 也不支持 三目运算
+a = 1
+b = 0
+print(a>b and a or b) --1
+
+a = 0
+b = 1
+print(a>b and a or b) --1
 ```
 
 ### 条件分支语句
@@ -370,13 +398,13 @@ a = 9
 --单分支
 if a > 5 then
 	print("123")
-end
+end --
 
 --双分支
 -- if 条件 then.....else.....end
 if a < 5 then
 	print("123")
-else
+else --可以省略
 	print("321")
 end
 
@@ -425,7 +453,7 @@ repeat
 until num > 5 --满足条件跳出 结束条件
 
 print("**********for语句************")
-for i =2,5 do --默认递增 i会默认+1
+for i =2,5 do --默认递增 i会默认+1 如果i<=5 大于5会跳出
 	print(i)
 end
 
@@ -451,7 +479,7 @@ function F1()
 end
 F1()
 --有点类似 C#中的 委托和事件
-F2 = function()
+F2 = function()	--F2为函数名
 	print("F2函数")
 end
 F2()
@@ -473,7 +501,7 @@ function F4(a)
 end
 --多返回值时 在前面申明多个变量来接取即可
 --如果变量不够 不影响 值接取对应位置的返回值
---如果变量多了 不应 直接赋nil
+--如果变量多了 不影响 直接赋nil
 temp, temp2, temp3, temp4 = F4("1")
 print(temp)
 print(temp2)
@@ -488,7 +516,6 @@ end
 print(type(F5))
 
 print("**********函数的重载************")
---函数名相同 参数类型不同 或者参数个数不同
 --lua中 函数不支持重载 
 --默认调用最后一个声明的函数
 function F6()
@@ -517,6 +544,7 @@ function F8()
 	end
 end
 f9 = F8()
+F8()()
 f9()
 
 --闭包
@@ -537,6 +565,7 @@ print(f10(5))
 print("**********数组************")
 a = {1,2,nil,3,"1231",true,nil}
 --lua中 索引从1开始
+print(a[-1]) --nil
 print(a[1])
 print(a[5])
 print(a[6])
@@ -545,10 +574,57 @@ print(a[7])
 --在打印长度的时候 空被忽略
 --如果表中（数组中）某一位变成nil 会影响# 
 print(#a) --输出为2
+
+print("**********二维数组************")
+a = {{1,2,3},{4,5,6},{7,8,9}}
+for i=1,#a do
+	for j=1,#a[i] do
+		print(a[i][j])
+	end 
+end
+
+print("**********自定义索引************") --不建议使用
+a = {[1]=1,2,[11]=3,[215]=4,6,[-7]=7,[1]=9}
+
+print(a[1]) --9
+print(a[2])	--6 会把自定义索引跳过了
+print(a[3])	--nil 
+print(a[0]) --nil
+print(a[-7]) --7
+print(#a)	--也是个坑 不确定
+
+a = {[1]=1,6,[2]=3,[215]=4,7,2,[-7]=7}
+
+print(a[1]) --6  重复了用的是本来的
+print(a[2])	--7
+print(a[3])	--2
+print(a[0]) --nil
+print(a[-7]) --7
+print(#a) --3
+
 ```
+### table中的#
+https://blog.csdn.net/tkokof1/article/details/103636559
+``` c#
+a= {1,2,nil,4,"123",true,nil,1}
+print(#a) --8
+b = {1,2,nil,4,"123",nil}
+print(#b) --2
+c = {1,nil,"高",true,7,8,nil}
+print(#c)  --6
+
+```
+这么奇怪的现象是由于lua在使用#时 
+1. 长度是从最大的数组索引处开始查找的,如果发现该处的元素不为空(nil),就直接向后查询
+首先检查 a[8]不为空 a[9]不存在 然后返回8
+2. b中 b[7]为nil 当 Lua 发现 table 最大数组索引处的元素为空时,是按二分法的方式向前查找的
+然后从b[3]找 b[3]为nil 所以再从b[3]前面找为0
+
 
 ### 迭代器
-
+#### ipairs
+不能找到0和0以下的自定义索引的内容
+如果从1开始 索引顺序断了 后面的内容也找不到
 ``` lua
 print("**********迭代器遍历************")
 --迭代器遍历 主要是用来遍历表的
@@ -560,20 +636,25 @@ print("**********ipairs迭代器遍历************")
 --ipairs
 --ipairs遍历 还是 从1开始往后遍历的 小于等于0的值得不到
 --只能找到连续索引的 键 如果中间断序了 它也无法遍历出后面的内容
+-- 先排非自定义的顺序 然后找自定义的
 for i,k in ipairs(a) do
-	print("ipairs遍历键值"..i.."_"..k)
+	print("ipairs遍历键值"..i.."_"..k) --1-2 2-4 3-5
 end
+a = {[0] = 1, 2, [-1]=3, 4, 5, [4] = 6} ---1-2 2-4 3-5 4-6 多了4-6 因为只能是连续索引的
 print("**********ipairs迭代器遍历键************")
 for i in ipairs(a) do
 	print("ipairs遍历键"..i)
 end
-
+```
+#### pairs
+最常使用 可以得到所有信息
+``` lua
 print("**********pairs迭代器遍历************")
 --它能够把所有的键都找到 通过键可以得到值
 for i,v in pairs(a) do
-	print("pairs遍历键值"..i.."_"..v)
+	print("pairs遍历键值"..i.."_"..v)--1-2 2-4 3-5 0-1 -1-3 4-6  都能找出来
 end
-
+-- 注意如果键重复的话 只会有一个 先非自定义 再自定义
 print("**********pairs迭代器遍历键************")
 for i in pairs(a) do
 	print("pairs遍历键"..i)
@@ -581,6 +662,13 @@ end
 ```
 
 ### 字典
+本质也是表
+通过中括号访问 可以通过print(a.name) .来访问 a = {["name"]="高"} 如果name是中文不行
+[5]=1 也能用a[5]来访问
+修改可以直接修改
+新增可以直接加key
+置nil 删除
+遍历 pairs
 ``` lua
 print("**********复杂数据类型——表2************")
 print("**********字典************")
@@ -610,6 +698,7 @@ print(a["sex"])
 print(a.sex)
 print("**********字典的遍历************")
 --如果要模拟字典 遍历一定用pairs
+-- ipairs只能是连续的数字为键
 for k,v in pairs(a) do
 	--可以传多个参数 一样可以打印出来
 	print(k,v)
@@ -620,12 +709,23 @@ for k in pairs(a) do
 	print(a[k])
 end
 
-for _,v in pairs(a) do
+for _,v in pairs(a) do --_也是键
 	print(_, v)
 end
 ``` 
 
 ### 类和结构体
+成员变量的 表内部声明  表外部声明
+
+成员函数 表内部声明  表外部声明 Student.Speak = function()//function Student:Speak2() 
+在表内部使用表的变量或者方法是 需要指明是谁的 (Student.age)
+
+#### 冒号
+--Lua中 .和冒号的区别
+Student.Learn(Student)
+--冒号调用方法 会默认把调用者 作为第一个参数传入方法中
+Student:Learn()
+如果用冒号声明函数 默认会有一个参数 自己 可以用self表示这个默认的参数
 ``` lua
 print("**********类和结构体************")
 
@@ -666,7 +766,7 @@ Student.Speak = function()
 	print("说话")
 end
 --函数的第三种申明方式
-function Student:Speak2()
+function Student:Speak2() --这里有一个冒号 表示有一个默认的参数
 	--lua中 有一个关键字 self 表示 默认传入的第一个参数
 	print(self.name .. "说话")
 end
@@ -686,9 +786,12 @@ Student.Speak2(Student)
 print("**********表的公共操作************")
 --表中 table提供的一些公共方法的讲解
 
-t1 = { {age = 1, name = "123"}, {age = 2, name = "345"} }
+t1 = { {age = 1, name = "123"}, {age = 2, name = "345"} } --表中存了俩张表
 
 t2 = {name = "唐老狮", sex = true}
+```
+#### **insert插入**
+``` lua
 print("**********插入************")
 --插入
 print(#t1)
@@ -698,6 +801,9 @@ print(t1[1])
 print(t1[2])
 print(t1[3])
 print(t1[3].sex)
+```
+#### **remove移除**
+``` lua
 print("**********移除************")
 --删除指定元素
 --remove方法 传表进去 会移除最后一个索引的内容
@@ -708,13 +814,16 @@ print(t1[2].name)
 print(t1[3])
 
 --remove方法 传两个参数 第一个参数 是要移除内容的表
---第二个参数 是要移除内容的索引
+--第二个参数 是要移除内容的索引 把第一个表移除了
 table.remove(t1, 1)
 print(t1[1].name)
 print(#t1)
+```
+#### sort排序
+``` lua
 print("**********排序************")
 t2 = {5,2,7,9,5}
---传入要排序的表 默认 降序排列
+--传入要排序的表 默认 升序排列 12345
 table.sort(t2)
 for _,v in pairs(t2) do
 	print(v)
@@ -723,23 +832,26 @@ print("**********降序************")
 --传入两个参数 第一个是用于排序的表
 --第二个是 排序规则函数
 table.sort(t2, function(a,b)
-	if a > b then
+	if a > b then --a>b 不交换
 		return true
 	end
 end)
 for _,v in pairs(t2) do
 	print(v)
 end
+```
 
+#### 拼接concat
+主要用于拼接 元表中的字符串
+``` lua
 print("**********拼接************")
 tb = {"123", "456", "789", "10101"}
---连接函数 用于拼接表中元素 返回值 是一个字符串
+--连接函数 用于拼接表中元素 中间加入, 返回值 是一个字符串
 str = table.concat(tb, ",")
 print(str)
 ```
 
 ### 多脚本执行
-
 ``` lua
 print("**********多脚本执行************")
 print("**********全局变量和本地变量************")
@@ -762,7 +874,7 @@ fun = function()
 	local tt = "123123123"
 end
 fun()
-print(tt) --依然是全局的变量
+print(tt) --nil
 
 local tt2 = "555" --局部的
 print(tt2)
@@ -775,11 +887,11 @@ local testLocalA = "456"
 return testLocalA
 --关键字 require("脚本名") require('脚本名')
 --该脚本
-require('Test')  --单引号双引号是一样的
+require('Test')  --单引号双引号是一样的 lua中没有char
 print(testA) --“123” 全局变量
 print(testLocalA) -- nil 局部变量执行不了
 
---如果是require加载执行的脚本 加载一次过后不会再被执行
+--如果是require加载执行的脚本 加载一次过后不会再被执行 重复加载没有用
 require("Test")
 
 print("**********脚本卸载************")
@@ -790,18 +902,34 @@ print(package.loaded["Test"])
 package.loaded["Test"] = nil
 print(package.loaded["Test"])
 
+print("*********脚本中返回一个局部变量************")
 --require 执行一个脚本时  可以再脚本最后返回一个外部希望获取的内容 
 --一般是返回一个局部变量
-local testLA = require("Test")
-print(testLA)
-
+-- 特殊用法
+--Test中 
+print("你已进入Test.lua")
+local lo = 19999
+return lo
+--主脚本
+local c = require("Test")
+print(c) --19999
+``` 
+### 大G表
+``` lua
 print("**********大G表************")
 --_G表是一个总表(table) 他将我们申明的所有全局的变量都存储在其中
--- 所有全局的都在 之所以我们任何地方都能调用 因为有大G表
+-- 所有全局的变量都在 之所以我们任何地方都能调用 因为有大G表
 for k,v in pairs(_G) do
 	print(k,v)
 end
 --本地变量 加了local的变量时不会存到大_G表中
+
+-- 可以用来添加全局变量 并使用
+_G["a"] = 12
+_G.b = "123"
+print(a)
+print(b)
+
 ```
 
 ### 特殊用法 多变量赋值 三目运算符
@@ -884,22 +1012,23 @@ print("**********协程的创建************")
 fun = function()
 	print(123)
 end
-co = coroutine.create(fun)
+co = coroutine.create(fun) --第一种方式创建 返回的是一个线程 常用方式
 
---协程的本质是一个线程对象
+--协程的本质是一个线程对象 第一种方式创建 返回的是一个线程
 print(co)
 print(type(co)) --thread
 
---coroutine.wrap() 第二种方式创建
+--coroutine.wrap() 第二种方式创建 返回的是函数
 co2 = coroutine.wrap(fun)
 print(co2)
 print(type(co2)) --返回出来的是函数
 
 print("**********协程的运行************")
---第一种方式 对应的 是通过 create创建的协程
-coroutine.resume(co) 
---第二种方式 调用函数
-co2()
+-- 俩种方式创建 俩种方式运行 不通用
+--第一种方式 对应的 是通过 create创建的协程 
+coroutine.resume(co)  --使用create创建的
+--第二种方式 调用函数 
+co2() --使用函数 --
 
 print("**********协程的挂起************")
 fun2 = function( )
@@ -911,14 +1040,15 @@ fun2 = function( )
 		print(coroutine.status(co3)) --协程的状态 进行中
 		print(coroutine.running()) --当前正在运行的协程的线程号
 		--coroutine.yield() --处于挂起状态 下次进来从这里开始
-		coroutine.yield(i) --可以有返回值 
+		coroutine.yield(i) --可以有返回值  要用俩个参数去启用的时候接 第一个是Boolean是否返回成功 
 	end
 end
 
 co3 = coroutine.create(fun2)
---coroutine.resume(co3) --1 启动一句打印一次
+--coroutine.resume(co3) --1 启动一句打印一次 --1 然后挂起
 --coroutine.resume(co3) --2 启动一句打印一次
 --coroutine.resume(co3) --3 启动一句打印一次
+co4 = coroutine.warp(fun2) --同上一样的
 
 --默认第一个返回值 是 协程是否启动成功 所以返回不了yield的返回值
 --第二个是yield里面的返回值
@@ -948,7 +1078,6 @@ print(coroutine.running())
 ```
 
 ### 元表
-
 ``` lua
 print("**********元表************")
 print("**********元表概念************")
@@ -964,19 +1093,22 @@ myTable = {}
 --第一个参数 子表
 --第二个参数 元表（爸爸）
 setmetatable(myTable, meta)
+```
+#### __tostring
 
+``` lua
 print("**********特定操作************")
 print("**********特定操作-__tostring************")
 
 --元表
 meta2 = {
 	--当子表要被当做字符串使用时 会默认调用这个元表中的tostring方法
-	__tostring = function(t)
+	__tostring = function(t) --这个下划线 注意一定要是来个下划线
 		return t.name
 	end
 }
 
-print(myTable2) --相当于c#重写了tostring 打印 t.name
+print(myTable2) --相当于c#重写了tostring 打印 t.name 默认把自己传了进去
 --如果没有调用方法meta2 = {} 
 --print(myTable2) --打印类型和内存地址
 
@@ -991,7 +1123,11 @@ myTable2 = {
 setmetatable(myTable2, meta2)
 
 print(myTable2) --默认把myTable2传进去了
-
+```
+#### __call 把子表当作函数调用
+当子表作为一个函数来使用时 会自动调用__call
+只用设置了元表 子表才能当成函数使用
+``` lua
 print("**********特定操作-__call************")
 meta3 = {
 	--当子表要被当做字符串使用时 会默认调用这个元表中的tostring方法
@@ -1000,6 +1136,7 @@ meta3 = {
 	end,
 	--当子表被当做一个函数myTable3()来使用时 会默认调用这个__call中的内容
 	--当希望传参数时 一定要记住 默认第一个参数 是调用者自己
+	-- 也可以不传参数
 	__call = function(a, b)
 		print(a) --a其实是调用者自己
 		print(b)
@@ -1015,12 +1152,16 @@ myTable3 = {
 setmetatable(myTable3, meta3)
 --把子表当做函数使用 就会调用元表的 __call方法
 myTable3(1)
-
+```
+#### 运算符重载
+一个表可以加另一个表
+有一个表加入元表 然后重载运算符即可实现
+``` lua
 print("**********特定操作-运算符重载************")
 
 meta4 = {}
 myTable4 = {}
-setmetatable(myTable4, myTable4)
+setmetatable(myTable4, meta4)
 myTable5 = {}
 print(myTable4+myTable5) --不支持+-运算
 
@@ -1084,249 +1225,252 @@ print(myTable4 ^ myTable5)
 
 --如果要用条件运算符 来比较两个对象
 --这两个对象的元表一定要一致 才能准确调用方法
+-- 所以需要把俩个表 都加入同样的元表
 print(myTable4 == myTable5)
 print(myTable4 > myTable5)
 print(myTable4 <= myTable5)
 
 print(myTable4 .. myTable5) --连接
+```
+#### __index和__newIndex
+--__index 当子表中 找不到某一个属性时 
+--会到元表中 **__index指定的表**去找属性 一定要是__index指定的表
 
+``` lua
 print("**********特定操作-__index和__newIndex************")
 
+------------------- __Index-------------------------------------------
 meta6 = {
-	age = 1
-	--__index={age = 2} --俩种添加方法
+	age = 1 --要去__index指定的表
+	--__index={age = 2} --俩种添加方法 第一种元表里添加
 }
 myTable6 = {}
 setmetatable(myTable6,meta6)
 
 --__index 当子表中 找不到某一个属性时 
 --会到元表中 __index指定的表去找属性
-print(myTable6.age) --打印为nil
+print(myTable6.age) --打印为nil 因为age = 1 没有被__index指定
 
 --所以需要
-meta6.__index={age = 2} -- 一种添加方式
-meta6.__index = meta6 -- 这样也可以 原表中有age = 1
+meta6.__index={age = 2} -- 一种添加方式 第二种元表外添加
+meta6.__index = meta6 -- 这样也可以 原表中有age = 1 **这种常用**
 
+--------------------元表 套 元表-------------------
+myTable = {age = 99}
+-- 特定操作 tostring
+meta = {name = "高主任"}
+meta.__index = meta
 
-meta6Father = {
-	age = 1 
-}
-meta6Father.__index = meta6Father
+metaFather = {sex = 123456}
+metaFather.__index = metaFather
 
-meta6 = {
-	--age = 1
-}
---__index的赋值 写在表外面来初始化
-meta6.__index = meta6
---meta6.__index = {age = 2}
+setmetatable(meta,metaFather)
+setmetatable(myTable,meta)--myTable为子表 meta为元表
+print(myTable.sex) --123456 一层一层的往上找
 
-myTable6 = {}
-setmetatable(meta6, meta6Father)
-setmetatable(myTable6, meta6) 
-
---得到myTable6的元表的方法 
-print(getmetatable(myTable6))
-
---__index 当子表中 找不到某一个属性时 
---会到元表中 __index指定的表去找属性
-print(myTable6.age) --先找myTable6 再找 meta6  再找 meta6Father 一层一层往上
-
+------------------- __newIndex-------------------------------------------
 -- __newIndex
 --newIndex 当赋值时，如果赋值一个不存在的索引
 --那么会把这个值赋值到newindex所指的表中 不会修改自己
-meta7 = {}
-myTable7 = {}
-setmetatable(myTable7, meta7)
-myTable7.age = 1 
-print(myTable7.age) --1
+meta = {}
+myTable = {}
+setmetatable(myTable, meta)
+myTable.age = 1 
+print(myTable.age) --1
 
-meta7.__newindex = {} 
+-- 当元表加入__newindex后 修改的是newindex中的表 不会修改自己了
+meta.__newindex = {} 
 myTable7.age = 1	--改一个属性时 改不到 就会进入__newindex
-print(myTable7.age) --为空了 
-print(myTable7.__newindex.age)
+print(myTable.age) --nil
+print(meta.__newindex.age) --1
+
+-- 得到原表的方法
+print(getmetatable(myTable))
 
 --rawget 当我们使用它是 会去找自己身上有没有这个变量 不会去管元表
-print(rawget(myTable6, "age"))
+meta.__index = {age = 1}
+print(myTable.age) --1
+print(rawget(myTable, "age")) --nil
 
 --rawset 该方法 会忽略newindex的设置 只会改自己的变量 忽略newindex
-rawset(myTable7, "age", 2)
-print(myTable7.age)
+rawset(myTable, "age", 2) --设置了newindex也没用了
+print(myTable.age)
 ```
 
 ### 面向对象
+#### 封装
+比如说int类型 需要声明 实例化出来才能使用
+写一个可以new的方法 实例化出对象
 ``` lua
-print("**********面向对象************")
-print("**********封装************")
---面向对象 类 其实都是基于 table来实现
---元表相关的知识点
-Object = {} --全局变量
+Object = {}
 Object.id = 1
-
-function Object:Test()
-	print(self.id)
+function Object:SpeakName()
+	print(self.name)
 end
 
---冒号 是会自动将调用这个函数的对象 作为第一个参数传入的写法
-function Object:new()
-	--self 代表的是 我们默认传入的第一个参数
-	--对象就是变量 返回一个新的变量
-	--返回出去的内容 本质上就是表对象
+-- 写一个初始化函数
+function  Object:new() 
+	--返回一个新的变量 是指就是表对象
 	local obj = {}
-	--元表知识 __index 当找自己的变量 找不到时 就会去找元表当中__index指向的内容
 	self.__index = self
-	setmetatable(obj, self) --子表 元表
+	setmetatable(obj,self)
 	return obj
 end
 
-local myObj = Object:new()
-print(myObj)
-print(myObj.id) --找不到 用元表的
-myObj:Test()
---对空表中 申明一个新的属性 叫做id
-myObj.id = 2 --相当于空表中 申明一个新属性 id
-myObj:Test() -- 调用元表的方法 但是把自己传进去
+local myOb = Object:new()
+print(myOb.id) --1 找元表中的id
+myOb.id = 5    --给我自己加了个成员 id
+print(myOb.id) --5 现在是自己的id
 
-print("**********继承************")
---C# class 类名 : 继承类
---写一个用于继承的方法
-function Object:subClass(className)
-	-- _G知识点 是总表 所有声明的全局标量 都以键值对的形式存在其中
-	_G[className] = {} --在大G中 创建一个空表
-	--写相关继承的规则
-	--用到元表
-	local obj = _G[className] --空表拿出来
-	self.__index = self
+myOb.name = "gao"
+myOb:SpeakName()
+```
 
-	--子类 定义个base属性 base属性代表父类 这个变量等于父类
-	obj.base = self -- 这里实现了子类多态方法可以使用父类方法
+#### 继承
+写一个用于**继承**的方法
+**_G**根据**字符串**创建了一个新的**表(类)**
 
-	setmetatable(obj, self) --谁调用它 self就是谁 self是元表
+``` lua
+Object = {}
+Object.id = 1
+function Object:SpeakName()
+	print(self.name)
 end
 
--- _G表原理
---print(_G)
---_G["a"] = 1
---_G.b = "123"
---print(a)
---print(b)
+function  Object:new() 
+	local obj = {}
+	self.__index = self
+	setmetatable(obj,self)
+	return obj
+end
+--------------继承相关-------------------------------
+--把想要继承的类名传进来
+function Object:subClass(className)
+	_G[className] = {} 		--创建一个新表
+	local obj = _G[className]
+	self.__index = self
+	setmetatable(obj,self)
+end
 
-Object:subClass("Person") --声明Person表 Object就是obj的元表了
+Object:subClass("Person")
+print(Person)	-- table 
+print(Person.id) --1
 
+-- p1--(Person:new())-->Person--(Object:subClass("Person"))-->Object中的__index
 local p1 = Person:new()
-print(p1.id)
-p1.id = 100
-print(p1.id)
-p1:Test()
+print(p1.id) --1
 
-Object:subClass("Monster")
-local m1 = Monster:new()
-print(m1.id)
-m1.id = 200
-print(m1.id)
-m1:Test()
+p1.name = "Gao"
+p1:SpeakName()	--Gao
+```
+#### 多态
+--相同行为 **不同表现** 就是多态
+--相同方法 **不同执行逻辑** 就是多态
 
-print("**********多态************")
---相同行为 不同表象 就是多态
---相同方法 不同执行逻辑 就是多态
+通过在自己类中写相同方法来覆盖掉父类
+如果需要**调用父类中的方法** 需要添加一个**base成员变量**来把父类保存
+
+但是这种方法有个**问题** 
+**多个对象 会使用同一个父类** 公用一张表的属性
+解决这个问题
+将 self.base:Move() 改为 self.base.Move(self) --将多个对象本身传进去
+
+``` lua
+Object = {}
+
+function  Object:new() 
+	local obj = {}
+	self.__index = self
+	setmetatable(obj,self)
+	return obj
+end
+
+function Object:subClass(className)
+	_G[className] = {} 		
+	local obj = _G[className]
+	self.__index = self
+	setmetatable(obj,self)
+	--子类中设置一个base成员 用于指代父类
+	obj.base = self  --可以在多态中调用父类方法
+end
+
+-- 创建一个GameObject类
 Object:subClass("GameObject")
-GameObject.posX = 0;
-GameObject.posY = 0;
+GameObject.posX = 10;
+GameObject.posY = 10;
+
+function GameObject:Move()
+	self.posX = self.posX + 1
+	self.posY = self.posY + 1
+
+	print("GameObject中的Move方法")
+	print(self.posX)
+	print(self.posY)
+end
+
+-- Player类继承GameObject
+GameObject:subClass("Player")
+--Player:Move() --11 11
+
+-- 重写了move方法 
+function Player:Move()
+
+	--现在的base是GameObject
+	--相当于俩个对象调用的都是GameObject的Move方法
+	--self.base:Move() --这样写有问题
+	self.base.Move(self)
+	print("Player中的Move方法")
+end
+--Player:Move() --相同方法 不同执行逻辑
+
+-- 问题
+local p1 = Player:new()
+local p2 = Player:new()
+p1:Move()--11 11	--self.base:Move() 11 11 
+p2:Move()--11 11	--12 12
+```
+### 一个完整的类
+``` lua
+GameObject = {}
+GameObject.id = 1
+GameObject.posX = 10
+GameObject.posY = 10
+
+function GameObject:new()
+	obj = {}
+	self.__index = self
+	setmetatable(obj, self)
+	return obj
+end
+
 function GameObject:Move()
 	self.posX = self.posX + 1
 	self.posY = self.posY + 1
 	print(self.posX)
 	print(self.posY)
+	print("GameObject中的Move方法")
 end
 
-GameObject:subClass("Player") --继承GameObject
-
-local p1 = Player:new()
-p1:Move() --父类中的方法
-
-function Player:Move()
-	-- 看上面的base实现方法
-	-- 需要
-	--base 指的是 GameObject 表（类）
-	--self.base:Move(self) 
-	--这种方式调用 相当于是把基类表 作为第一个参数传入了方法中 用的是Gameobject自己的
-	--避免把基类表 传入到方法中 这样相当于就是公用一张表的属性了
-	
-	--我们如果要执行父类逻辑 我们不要直接使用冒号调用
-	--要通过.调用 然后自己传入第一个参数 
-	self.base.Move(self) 
-end
-
-p1:Move()
---目前这种写法 有坑 不同对象使用的成员变量 居然是相同的成员变量
---不是自己的
-local p2 = Player:new() 
-p2:Move() --是2 2 和p1共用
-```
-``` lua
---面向对象实现 
---万物之父 所有对象的基类 Object
---封装
-Object = {}
---实例化方法
-function Object:new()
-	local obj = {}
-	--给空对象设置元表 以及 __index
-	self.__index = self
-	setmetatable(obj, self)
-	return obj
-end
---继承
-function Object:subClass(className)
-	--根据名字生成一张表 就是一个类
+function GameObject:subClass(className)
 	_G[className] = {}
-	local obj = _G[className]
-	--设置自己的“父类”
-	obj.base = self
-	--给子类设置元表 以及 __index
+	local obj = _G[className] 
 	self.__index = self
-	setmetatable(obj, self)
+	obj.base = self
+	setmetatable(obj,self)
 end
 
---申明一个新的类
-Object:subClass("GameObject")
---成员变量
-GameObject.posX = 0
-GameObject.posY = 0
---成员方法
-function GameObject:Move()
-	self.posX = self.posX + 1
-	self.posY = self.posY + 1
-end
-
---实例化对象使用
-local obj = GameObject:new()
-print(obj.posX)
-obj:Move()
-print(obj.posX)
-
-local obj2 = GameObject:new()
-print(obj2.posX)
-obj2:Move()
-print(obj2.posX)
-
---申明一个新的类 Player 继承 GameObject
 GameObject:subClass("Player")
---多态 重写了 GameObject的Move方法
 function Player:Move()
-	--base调用父类方法 用.自己传第一个参数
 	self.base.Move(self)
+	print("Player中的Move方法")
 end
-print("****")
---实例化Player对象
-local p1 = Player:new()
-print(p1.posX)
-p1:Move()
-print(p1.posX)
 
+
+local p1 = Player:new()
 local p2 = Player:new()
-print(p2.posX)
+p1:Move()
+print("-------------------")
 p2:Move()
-print(p2.posX)
 ```
 
 ### 自带库

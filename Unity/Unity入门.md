@@ -462,7 +462,7 @@ print(otherLesson3.transform.position);
 ```
 
 #### 通过脚本名来获得子类的或父类的脚本
-可以通过一个脚本名字 来得到子类或者父类中的那个脚本     
+可以通过一个脚本名字 来得到子类或者父类中的那个脚本         
 只要得到场景中的别的对象或者对象依附的脚本 那么就可以获取到它的**所有信息**   
 
 1. 得到自己挂载的单个脚本 (挂俩个相同脚本 无法确定得到的是哪种脚本)     
@@ -595,7 +595,7 @@ print(objs.Length);
 
 // GameObject父类 object提供的方法 用的非常少 效率更低 先遍历对象 再遍历脚本
 // 可以找到场景中挂载某一个脚本对象 再通过该脚本找到所挂载的GameObject
-Lesson4 o = GameObject.FindObjectOfType<Lesson4>();
+Lesson4 o = GameObject.FindObjectOfType<Lesson4>();// :根据类型(组件/自定义脚本)查找并返回这个类
 
 
 ```
@@ -1492,6 +1492,7 @@ Window->Rendering Lighting->Setting
 人被弓箭射中 会直接被射穿 不会被推着走 人会被检测扣血等等           
 弓箭魔法等等 就会启用这一功能           
 
+
 #### **Center**     
 碰撞器的中心点位置 可以进行编辑中心点位置       
 
@@ -1569,7 +1570,7 @@ private void OnCollisionStay(Collision collision)
     print(this.name + "一直在和" + collision.gameObject.name + "接触");
 }
 ```
-**触发器检测响应函数**
+**触发器检测响应函数**          
 勾选Is Trigger 不会有物理碰撞效果
 ``` c#
 //触发开始的函数 当第一次接触时 会自动调用

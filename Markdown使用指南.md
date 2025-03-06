@@ -6,6 +6,7 @@
 - [插入图片](#插入图片)
 - [插入代码](#插入代码)
 - [关闭 Markdown 文件的自动预览功能](#关闭-markdown-文件的自动预览功能)
+- [打空格不换行了(预览会换行)](#打空格不换行了预览会换行)
 
 
 ## 目录
@@ -27,6 +28,7 @@ makedown目录
 >>嵌套 第二层
 >>> 嵌套 第三层
 - 小标点
+* 小标点
 ## 表格
 
 
@@ -64,3 +66,13 @@ print(helle world);
 找到 Markdown: Preview Auto Show Preview To Side 选项，取消勾选或将其设置为 false。
 
 完成这些步骤后，打开 .md 文件时，右侧将不再自动显示预览。
+
+
+
+## 打空格不换行了(预览会换行)
+
+打开 VS Code 的设置（Ctrl + , 或 Cmd + ,）。
+
+在搜索框中输入 markdown.preview.breaks。
+
+找到 Markdown: Preview: Breaks 选项，将其设置为 true
