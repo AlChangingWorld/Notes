@@ -1,64 +1,89 @@
 - [热更新](#热更新)
-	- [热更新概念](#热更新概念)
-	- [AssetBundle包](#assetbundle包)
-		- [用处](#用处)
-		- [生成AB包资源文件](#生成ab包资源文件)
-		- [使用AB包资源文件](#使用ab包资源文件)
-		- [AB依赖](#ab依赖)
-	- [Lua语法](#lua语法)
-		- [输出和注释](#输出和注释)
-		- [变量](#变量)
-			- [type()](#type)
-			- [nil](#nil)
-			- [number](#number)
-			- [string](#string)
-			- [boolean](#boolean)
-		- [字符串](#字符串)
-		- [获取字符串的长度](#获取字符串的长度)
-		- [字符串多行打印](#字符串多行打印)
-		- [字符串拼接](#字符串拼接)
-		- [别的类型转字符串](#别的类型转字符串)
-		- [字符串提供的公共方法](#字符串提供的公共方法)
-		- [运算符](#运算符)
-			- [算数运算符](#算数运算符)
-			- [条件运算符](#条件运算符)
-			- [逻辑运算符](#逻辑运算符)
-			- [位运算符](#位运算符)
-			- [三目运算符](#三目运算符)
-		- [条件分支语句](#条件分支语句)
-		- [循环语句](#循环语句)
-		- [函数](#函数)
-		- [复杂数据类型 table](#复杂数据类型-table)
-		- [table中的#](#table中的)
-		- [迭代器](#迭代器)
-			- [ipairs](#ipairs)
-			- [pairs](#pairs)
-		- [字典](#字典)
-		- [类和结构体](#类和结构体)
-			- [冒号](#冒号)
-		- [表的公共操作](#表的公共操作)
-			- [**insert插入**](#insert插入)
-			- [**remove移除**](#remove移除)
-			- [sort排序](#sort排序)
-			- [拼接concat](#拼接concat)
-		- [多脚本执行](#多脚本执行)
-		- [大G表](#大g表)
-		- [特殊用法 多变量赋值 三目运算符](#特殊用法-多变量赋值-三目运算符)
-		- [协程](#协程)
-		- [元表](#元表)
-			- [\_\_tostring](#__tostring)
-			- [\_\_call 把子表当作函数调用](#__call-把子表当作函数调用)
-			- [运算符重载](#运算符重载)
-			- [\_\_index和\_\_newIndex](#__index和__newindex)
-		- [面向对象](#面向对象)
-			- [封装](#封装)
-			- [继承](#继承)
-			- [多态](#多态)
-		- [一个完整的类](#一个完整的类)
-		- [自带库](#自带库)
-		- [垃圾回收](#垃圾回收)
-		- [单例模式基类](#单例模式基类)
-	- [XLua 热更新](#xlua-热更新)
+  - [热更新概念](#热更新概念)
+  - [AssetBundle包](#assetbundle包)
+    - [用处](#用处)
+    - [生成AB包资源文件](#生成ab包资源文件)
+    - [使用AB包资源文件](#使用ab包资源文件)
+    - [异步加载AB包及资源](#异步加载ab包及资源)
+    - [AB依赖](#ab依赖)
+    - [AB包管理器](#ab包管理器)
+  - [Lua语法](#lua语法)
+    - [输出和注释](#输出和注释)
+    - [变量](#变量)
+      - [type()](#type)
+      - [nil](#nil)
+      - [number](#number)
+      - [string](#string)
+      - [boolean](#boolean)
+    - [字符串](#字符串)
+    - [获取字符串的长度](#获取字符串的长度)
+    - [字符串多行打印](#字符串多行打印)
+    - [字符串拼接](#字符串拼接)
+    - [别的类型转字符串](#别的类型转字符串)
+    - [字符串提供的公共方法](#字符串提供的公共方法)
+    - [运算符](#运算符)
+      - [算数运算符](#算数运算符)
+      - [条件运算符](#条件运算符)
+      - [逻辑运算符](#逻辑运算符)
+      - [位运算符](#位运算符)
+      - [三目运算符](#三目运算符)
+    - [条件分支语句](#条件分支语句)
+    - [循环语句](#循环语句)
+    - [函数](#函数)
+    - [复杂数据类型 table](#复杂数据类型-table)
+    - [table中的#](#table中的)
+    - [迭代器](#迭代器)
+      - [ipairs](#ipairs)
+      - [pairs](#pairs)
+    - [字典](#字典)
+    - [类和结构体](#类和结构体)
+      - [冒号](#冒号)
+    - [表的公共操作](#表的公共操作)
+      - [**insert插入**](#insert插入)
+      - [**remove移除**](#remove移除)
+      - [sort排序](#sort排序)
+      - [拼接concat](#拼接concat)
+    - [多脚本执行](#多脚本执行)
+      - [全局变量和本地变量](#全局变量和本地变量)
+      - [多脚本执行](#多脚本执行-1)
+    - [大G表](#大g表)
+    - [特殊用法 多变量赋值 三目运算符](#特殊用法-多变量赋值-三目运算符)
+      - [多变量赋值](#多变量赋值)
+      - [多返回值](#多返回值)
+      - [and or](#and-or)
+    - [协程](#协程)
+    - [元表](#元表)
+      - [\_\_tostring](#__tostring)
+      - [\_\_call 把子表当作函数调用](#__call-把子表当作函数调用)
+      - [运算符重载](#运算符重载)
+      - [\_\_index和\_\_newIndex](#__index和__newindex)
+        - [](#)
+    - [面向对象](#面向对象)
+      - [封装](#封装)
+      - [继承](#继承)
+      - [多态](#多态)
+    - [一个完整的类](#一个完整的类)
+    - [自带库](#自带库)
+    - [垃圾回收](#垃圾回收)
+  - [XLua 热更新](#xlua-热更新)
+    - [xLua框架导入和AB包相关准备](#xlua框架导入和ab包相关准备)
+  - [c#调用lua](#c调用lua)
+    - [lua解析器](#lua解析器)
+    - [文件加载重定向](#文件加载重定向)
+    - [Lua解析器管理器](#lua解析器管理器)
+    - [全局变量的获取](#全局变量的获取)
+    - [全局函数的获取](#全局函数的获取)
+      - [无参无返回值](#无参无返回值)
+      - [有参有返回](#有参有返回)
+      - [多返回值 使用out和ref](#多返回值-使用out和ref)
+      - [变长参数 使用out和ref](#变长参数-使用out和ref)
+    - [映射到List和Dictionary](#映射到list和dictionary)
+    - [lua映射到类](#lua映射到类)
+    - [lua映射接口](#lua映射接口)
+    - [luaTable映射到table](#luatable映射到table)
+    - [CSharpCallLua特性](#csharpcalllua特性)
+  - [Lua调用c#](#lua调用c)
+    - [类](#类)
 
 # 热更新
 ## 热更新概念
@@ -87,71 +112,103 @@ AB包比较灵活 存储位置可以自定义 压缩方式自定义 后期可以
 ![](Image/2025-01-27-18-09-52.png)
 
 ### 生成AB包资源文件
-![](Image/2025-02-07-12-00-57.png) 
+在package中 搜索AssetBundles-Browser-master工具的导入
+高版本中会发现没有
+高版本用**Addressables**功能封装了AB包功能
+打包时会拷贝到 StreamingAssets文件中
+注意 **AB包不能重复加载** 否则报错
+**Window---AssetBundle** 这就是打包的地方
+
 c# 是编译型语言
 脚本不能把脚本打成了AB包 而是把关联的数据打成了AB包
 脚本都是一个个的编号
 AB包每次打包都要分平台
 ![](Image/2025-02-07-12-15-41.png)
-![](Image/2025-02-07-12-23-12.png)
-![](Image/2025-02-07-12-25-18.png)
-![](Image/2025-02-07-12-25-36.png)
-![](Image/2025-02-07-12-26-03.png)
 
+1. 将这个模型打包到AssetBundle的Model文件中
+![](Image/2025-03-08-14-51-50.png)
+2. 出现了资源文件
+![](Image/2025-03-08-14-54-08.png)
+3. build
+![](Image/2025-03-08-15-09-27.png)
+**Compression 压缩方式**
+No Compresstion 不压缩 不需要解压 包大 
+Standard Compression(LZMA) 压缩最小 但是会把所以的都解压出来
+Chunk Based Compression(LZ4) 压缩会大一点点 用什么解压什么
+
+![](Image/2025-03-08-15-09-04.png)
+![](Image/2025-03-08-15-12-26.png)
+- PC 和主包文件名一样的文件 保存依赖关系 AB包依赖关键信息
+- model 和 head 是真正的AB包文件 二进制 资源文件
+- model.manifest 和 head.manifest是配置文件 AB包的文件 当加载时提供了关键信息 资源信息 依赖关系 版本信息等等
+
+**为什么选择复制到StreamingAssets?**
+游戏打包时 build AB包中的路径下 PC文件夹 是不会随着打包的
+所以需要拷贝进StreamingAssets 会随着U3D打包出去 PC上是可读可写 安卓IOS只读
 
 ### 使用AB包资源文件
-打包时会拷贝到 StreamingAssets文件中
-注意 **AB包不能重复加载** 否则报错
-``` c#
-//加载 AB包
-AssetBundle ab = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"model");
-//卸载包 参数为true 会把通过AB包加载的资源也卸载了
-ab.Unload(false);
 
+``` c#
+//-------------------加载AB包------------------------
+AssetBundle ab = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"model");
+// AB包不能重复加载 否则报错
+//AssetBundle ab = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"model");
+
+//-------------------加载AB包中的资源------------------------
 // 加载AB包中的资源
+// 只是名字加载 会出现 同名不同类型资源 分不清
+// 建议用泛型加载 或者是 Type指定类型
+GameObject obj = ab.LoadAsset("Cube");
 GameObject obj = ab.LoadAsset<GameObject>("Cube");
 GameObject obj = ab.LoadAsset("Cube",typeof(GameObject)) as GameObject;
-Instatiate(obj);
+Instantiate(obj);
 GameObject obj2 = ab.LoadAsset("Sphere",typeof(GameObject)) as GameObject;
-Instatiate(obj2);
+Instantiate(obj2);
+//-------------------卸载------------------------
+//卸载单个包 参数为true 会把通过AB包加载的资源也卸载了
+ab.Unload(false);
 
-// AB包不能重复加载 否则报错
-AssetBundle ab = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"model");
-
-// 卸载所有加载的AB包 参数为true 会把通过AB包加载的资源也卸载了
-AssetBundle.UnloadAllAssetBundles(false);
+// 卸载所有加载的AB包 参数为true 会把场景上通过AB包加载的资源也卸载了
+AssetBundle.UnloadAllAssetBundles(false); //只会卸载AB包 一般填false
 ```
-**异步加载**
+
+### 异步加载AB包及资源
 ``` c#
-StartCoroutine(LoadABRes("head","23_156"));
-IEnumerator LoadABRes(string ABName, string resName)
+StartCoroutine(LoadABRes("model","Cube"));
+public Image im; //拖入
+IEnumerator LoadABRes(string ABName, string resName) //异步加载资源
 {
-    //加载 AB包
+    // 异步加载 AB包
     AssetBundleCreateRequest abcr = AssetBundle.LoadFromFileAsync(Application.streamingAssetsPath+"/"+"model");
     yield return abcr;
     //加载资源
-    AssetBundleRequest abq = abcr.assetBundle.LoadAssetAsync(resName,typeof(Sprite));
+    AssetBundleRequest abq = abcr.assetBundle.LoadAssetAsync(resName,typeof(GameObject));
     yield return abq;
+	// 实例化资源
+	Instantiate(abq.asset as GameObject); 
     //abq.asset as Sprite;
     img.sprite = abq.asset as Sprite;
-    
 }
 ```
 
 ### AB依赖
-在AB包中的资源使用了一个资源 比如材质球 材质球也会打包
-但是这个材质球 我们去打包到AB包中的其他文件夹下 不在模型包中 这是时候 如果只加载自己的AB包 模型也用不了这个材质
+在包中的一个资源如果用了另一个资源 Cube用了一个material 这个材质会被自动打包进同一个AB包
+但是这个材质球 我们去打包到AB包中的其他文件夹下color 不在模型包中 
+这时候 如果只加载自己的AB包 Cube会用不到这个material了
 
+通常需要依赖包会很多 因为依赖的太多了 而且需要知道关系
+-利用主包 获取依赖信息
 **解决方法** 把依赖包一起加载 缺点是 整个包的依赖的包 都要加载进来
+缺点是 只能是一个包 依赖于哪几个包 可以在主包配置文件中看到 PC.manifest
+并不能知道这个模型依赖于哪个包
 ``` c#
-//加载 AB包
+//加载AB包
 AssetBundle ab = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"model");
-//加载 依赖包
-//AssetBundle ab2 = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"head");
-
-//因为依赖的太多了 而且需要知道关系
-//依赖包的关键知识点-利用主包 获取依赖信息
-//加载主包
+//加载AB包中的资源
+GameObject cube = ab.LoadAsset<GameObject>("Cube");
+Instantiate(cube);
+//-----------------------解决方案---------------------------
+//加载主包 PC就是你在build时候的路径文件夹
 AssetBundle abMain = AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+"PC");
 //加载主包中的固定文件
 AssetBundleManifest abManifest = abMain.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
@@ -163,11 +220,199 @@ for(int i =0;i<str.Length;i++)
     Debug.Log(strs[i]);
     AssetBundle.LoadFromFile(Application.streamingAssetsPath+"/"+strs[i]);
 }
-
-
 GameObject obj = ab.LoadAsset<GameObject>("Cube");
 Instatiate(obj);
 ```
+### AB包管理器
+让外部更方便的进行AB包的资源加载
+``` c#
+// 让外部更方便的进行资源加载
+public class ABManager : SingletonAutoMono<ABManager>
+{
+    // 字典 存储加载过的所有包
+    private Dictionary<string, AssetBundle> abDic = new Dictionary<string, AssetBundle>();
+
+    //主包
+    private AssetBundle mainAB = null;
+    //依赖包获取的配置文件
+    private AssetBundleManifest manifest = null;
+
+    // AB包存放的路径
+    private string PathUrl
+    {
+        get 
+        {
+            return Application.streamingAssetsPath + "/";
+        }
+    }
+    private string MainABName
+    {
+        get
+        {
+#if     UNITY_IOS
+#elif UNITY_ANDROID
+#else
+            return "PC";
+#endif
+        }
+    }
+    //加载AB包
+    public void LoadAB(string abName)
+    {
+        // 1.加载主包
+        if (mainAB == null)
+        {
+            mainAB = AssetBundle.LoadFromFile(PathUrl + MainABName);
+            // 2.加载主包中的依赖信息
+            manifest = mainAB.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+        }
+        // 3.获取加载这个包的所有依赖包
+        string[] strs = manifest.GetAllDependencies(abName);
+        AssetBundle ab = null;
+        for (int i = 0; i < strs.Length; i++)
+        {
+            if (!abDic.ContainsKey(strs[i]))
+            {
+                ab = AssetBundle.LoadFromFile(PathUrl + strs[i]);
+                abDic.Add(strs[i], ab);
+            }
+        }
+        // 4.加载 所需的包
+        if (!abDic.ContainsKey(abName))
+        {
+            ab = AssetBundle.LoadFromFile(PathUrl + abName);
+            abDic.Add(abName, ab);
+        }
+    }
+    #region 同步加载资源
+    //同步加载(普通方法)
+    public Object LoadRes(string abName,string resName)
+    {
+        LoadAB(abName);
+        //5. 返回包中的资源
+        Object obj = abDic[abName].LoadAsset(resName);
+        if (obj is GameObject) //帮助判断一下 如果是游戏物体就实例化(不用也可以)
+            return Instantiate(obj);
+        else
+            return obj;
+    }
+    //同步加载(类型方法重载)
+    public Object LoadRes(string abName, string resName, System.Type type)
+    {
+        LoadAB(abName);
+        //5. 返回包中的资源
+        Object obj = abDic[abName].LoadAsset(resName, type);
+        if (obj is GameObject) //帮助判断一下 如果是游戏物体就实例化(不用也可以)
+            return Instantiate(obj);
+        else
+            return obj;
+    }
+    //同步加载(泛型方法重载) 好处是不需要在调用时 is as进行转换了
+    public T LoadRes<T>(string abName, string resName) where T: Object
+    {
+        LoadAB(abName);
+        //5. 返回包中的资源
+        T obj = abDic[abName].LoadAsset<T>(resName);
+        if (obj is GameObject) //帮助判断一下 如果是游戏物体就实例化(不用也可以)
+            return Instantiate(obj);
+        else
+            return obj;
+    }
+    #endregion
+    #region 异步加载资源
+    //异步加载资源 AB包中并没有使用异步加载 
+    //异步加载(普通方法)
+    public void LoadResAsync(string abName, string resName, UnityAction<Object> callBack)
+    {
+        StartCoroutine(ReallyLoadResAsync(abName,  resName, callBack));
+    }
+    IEnumerator ReallyLoadResAsync(string abName, string resName, UnityAction<Object> callBack)
+    {
+        // 异步加载资源
+        AssetBundleRequest abr = abDic[abName].LoadAssetAsync(resName);
+        yield return abr;
+
+        //异步加载结束后 通过委托传递给外部 外部来使用
+        if (abr.asset is GameObject)
+            callBack(Instantiate(abr.asset));
+        else
+            callBack(abr.asset);
+    }
+
+    //异步加载(类型 重载)
+    public void LoadResAsync(string abName, string resName, System.Type type, UnityAction<Object> callBack)
+    {
+        StartCoroutine(ReallyLoadResAsync(abName, resName, type, callBack));
+    }
+    IEnumerator ReallyLoadResAsync(string abName, string resName, System.Type type, UnityAction<Object> callBack)
+    {
+        // 异步加载资源
+        AssetBundleRequest abr = abDic[abName].LoadAssetAsync(resName, type);
+        yield return abr;
+
+        //异步加载结束后 通过委托传递给外部 外部来使用
+        if (abr.asset is GameObject)
+            callBack(Instantiate(abr.asset));
+        else
+            callBack(abr.asset);
+    }
+
+    //异步加载(泛型方法重载) 好处是不需要在调用时 is as进行转换了
+    public void LoadResAsync<T>(string abName, string resName, UnityAction<T> callBack) where T : Object
+    {
+        StartCoroutine(ReallyLoadResAsync<T>(abName, resName, callBack));
+    }
+    IEnumerator ReallyLoadResAsync<T>(string abName, string resName, UnityAction<T> callBack) where T : Object
+    {
+        // 异步加载资源
+        AssetBundleRequest abr = abDic[abName].LoadAssetAsync<T>(resName);
+        yield return abr;
+
+        //异步加载结束后 通过委托传递给外部 外部来使用
+        if (abr.asset is GameObject)
+            callBack(Instantiate(abr.asset) as T);
+        else
+            callBack(abr.asset as T);
+    }
+    #endregion
+    //单个包卸载
+    public void UnLoad(string abName)
+    {
+        if (!abDic.ContainsKey(abName))
+        {
+            abDic[abName].Unload(false);
+            abDic.Remove(abName);
+        }
+    }
+
+    //所有包卸载
+    public void UnLoadAll()
+    {
+        AssetBundle.UnloadAllAssetBundles(false);
+        abDic.Clear();
+        mainAB = null;
+        manifest = null;
+    }
+}
+
+// 同步
+GameObject cube = ABManager.GetInstance().LoadRes("model", "Cube") as GameObject;
+GameObject cube1 = ABManager.GetInstance().LoadRes("model", "Cube", typeof(GameObject)) as GameObject;
+GameObject cube2 = ABManager.GetInstance().LoadRes<GameObject>("model", "Cube");
+cube.transform.position = Vector3.zero;
+
+//异步
+ABManager.GetInstance().LoadResAsync("model", "Cube",(obj)=>{
+    (obj as GameObject).transform.position = Vector3.zero;
+});
+ABManager.GetInstance().LoadResAsync("model", "Cube", typeof(GameObject), (obj) => {
+    (obj as GameObject).transform.position = Vector3.zero;
+});
+ABManager.GetInstance().LoadResAsync<GameObject>("model", "Cube", (obj) => {
+    obj.transform.position = Vector3.zero;
+});
+```
+
 
 ## Lua语法
 **ctrl+b** 运行
@@ -375,11 +620,12 @@ print( false or false)
 print( not true)
 ```
 #### 位运算符
--- & | 不支持位运算符 需要我们自己实现
+-- & | 不支持位运算符					
+需要我们自己实现
 	
 #### 三目运算符	
-lua中 也不支持 三目运算符			
-可以自己通过短路实现一个			
+lua中 也不支持 三目运算符									
+可以自己通过短路实现一个									
 ``` lua
 a = 1
 b = 0
@@ -391,40 +637,17 @@ print(a>b and a or b) --1
 ```
 
 ### 条件分支语句
-
 ``` lua
-a = 9
---if 条件 then.....end
---单分支
-if a > 5 then
-	print("123")
-end --
-
---双分支
--- if 条件 then.....else.....end
-if a < 5 then
-	print("123")
-else --可以省略
-	print("321")
-end
-
 --多分支
 -- if 条件 then.....elseif 条件 then....elseif 条件 then....else.....end
 if a < 5 then
 	print("123")
 --lua中 elseif 一定是连这些 否则报错
-elseif a == 6 then
+elseif a == 6 then --可以省略
 	print("6")
-elseif a == 7 then
-	print("7")
-elseif a == 8 then
-	print("8")
-elseif a == 9 then
-	print("9")
-else
+else --可以省略
 	print("other")
 end
-
 
 if a >= 3 and a <= 9 then
 	print("3到9之间")
@@ -434,7 +657,6 @@ end
 ```
 
 ### 循环语句
-
 ``` lua
 print("**********while语句************")
 num = 0
@@ -468,11 +690,6 @@ end
 
 ### 函数
 ``` lua
---function 函数名()
---end
-
---a = function()
---end
 print("**********无参数无返回值************")
 function F1()
 	print("F1函数")
@@ -524,8 +741,7 @@ end
 function F6(str)
 	print(str)
 end
-
-F6()
+F6() --最近的一次声明
 
 print("**********变长参数************")
 function F7( ... )
@@ -539,7 +755,7 @@ F7(1,"123",true,4,5,6)
 
 print("**********函数嵌套************")
 function F8()
-	return function()
+	return function() 	--需要是无名的
 		print(123);
 	end
 end
@@ -566,10 +782,8 @@ print("**********数组************")
 a = {1,2,nil,3,"1231",true,nil}
 --lua中 索引从1开始
 print(a[-1]) --nil
-print(a[1])
-print(a[5])
-print(a[6])
-print(a[7])
+print(a[1]) --1
+
 --#是通用的获取长度的关键字
 --在打印长度的时候 空被忽略
 --如果表中（数组中）某一位变成nil 会影响# 
@@ -654,7 +868,7 @@ print("**********pairs迭代器遍历************")
 for i,v in pairs(a) do
 	print("pairs遍历键值"..i.."_"..v)--1-2 2-4 3-5 0-1 -1-3 4-6  都能找出来
 end
--- 注意如果键重复的话 只会有一个 先非自定义 再自定义
+-- 注意如果键重复的话 只会有一个 使用非自定义的 
 print("**********pairs迭代器遍历键************")
 for i in pairs(a) do
 	print("pairs遍历键"..i)
@@ -664,7 +878,7 @@ end
 ### 字典
 本质也是表
 通过中括号访问 可以通过print(a.name) .来访问 a = {["name"]="高"} 如果name是中文不行
-[5]=1 也能用a[5]来访问
+[5]=1 也能用a[5]来访问 相当于自定义索引
 修改可以直接修改
 新增可以直接加key
 置nil 删除
@@ -762,7 +976,7 @@ Student:Learn()
 
 --申明表过后 在表外去申明表有的变量和方法
 Student.name = "唐老狮"
-Student.Speak = function()
+Student.Speak = function() --函数的第二种申明方式
 	print("说话")
 end
 --函数的第三种申明方式
@@ -796,10 +1010,7 @@ print("**********插入************")
 --插入
 print(#t1)
 table.insert(t1, t2);
-print(#t1)
-print(t1[1])
-print(t1[2])
-print(t1[3])
+print(#t1) --3
 print(t1[3].sex)
 ```
 #### **remove移除**
@@ -832,7 +1043,7 @@ print("**********降序************")
 --传入两个参数 第一个是用于排序的表
 --第二个是 排序规则函数
 table.sort(t2, function(a,b)
-	if a > b then --a>b 不交换
+	if a > b then --a>b 不交换 --a看作后一个 b看作前一个吧
 		return true
 	end
 end)
@@ -852,9 +1063,9 @@ print(str)
 ```
 
 ### 多脚本执行
+
+#### 全局变量和本地变量
 ``` lua
-print("**********多脚本执行************")
-print("**********全局变量和本地变量************")
 --全局变量 这样声明是全局变量
 a = 1
 b = "123"
@@ -870,55 +1081,48 @@ for i = 1,2 do
 end
 print(d) --打印不出来了
 
-fun = function()
-	local tt = "123123123"
-end
-fun()
-print(tt) --nil
+``` 
+#### 多脚本执行
+关键字 require("脚本名") require('脚本名')
+``` lua
+-- 新脚本Test
+print("你已进入Test.lua")
+num = 1
+local lnum = 9999
+return lnum
 
-local tt2 = "555" --局部的
-print(tt2)
-
-print("**********多脚本执行************")
---创建一个新脚本Test
-print("Test")
-testA = "123"
-local testLocalA = "456"
-return testLocalA
---关键字 require("脚本名") require('脚本名')
---该脚本
-require('Test')  --单引号双引号是一样的 lua中没有char
-print(testA) --“123” 全局变量
-print(testLocalA) -- nil 局部变量执行不了
-
+-- 主脚本
+print(num)  	--nil 不加载文件为nil _G是一个lua文件一个
+require("Test") --"你已进入Test.lua"
+print(num)		--1
+print(lnum)		--局部变量 nil
 --如果是require加载执行的脚本 加载一次过后不会再被执行 重复加载没有用
 require("Test")
 
 print("**********脚本卸载************")
 --package.loaded["脚本名"]
 --返回值是boolean 意思是 该脚本是否被执行
-print(package.loaded["Test"])
+print(package.loaded["Test"]) --9999 取到了返回值
 --卸载已经执行过的脚本
-package.loaded["Test"] = nil
-print(package.loaded["Test"])
+package.loaded["Test"] = nil	
+print(package.loaded["Test"])	--nil 
+print(num) --1 脚本被卸载了 但是全局变量还在
 
 print("*********脚本中返回一个局部变量************")
 --require 执行一个脚本时  可以再脚本最后返回一个外部希望获取的内容 
 --一般是返回一个局部变量
 -- 特殊用法
 --Test中 
-print("你已进入Test.lua")
-local lo = 19999
-return lo
---主脚本
+
 local c = require("Test")
-print(c) --19999
+print(c) --9999
 ``` 
 ### 大G表
+_G表是一个总表(table) 他将我们申明的**所有全局的变量**都存储在其中
+所有全局的变量都在 之所以我们任何地方都能调用 因为有大G表		
 ``` lua
 print("**********大G表************")
---_G表是一个总表(table) 他将我们申明的所有全局的变量都存储在其中
--- 所有全局的变量都在 之所以我们任何地方都能调用 因为有大G表
+
 for k,v in pairs(_G) do
 	print(k,v)
 end
@@ -934,13 +1138,8 @@ print(b)
 
 ### 特殊用法 多变量赋值 三目运算符
 
+#### 多变量赋值
 ``` lua
-print("**********特殊用法************")
-print("**********多变量赋值************")
-local a,b,c = 1,2,"123"
-print(a)
-print(b)
-print(c)
 --多变量赋值 如果后面的值不够 会自动补空
 a,b,c = 1,2 
 print(a)
@@ -951,8 +1150,9 @@ a,b,c = 1,2,3,4,5,6
 print(a)
 print(b)
 print(c)
-
-print("**********多返回值************")
+```
+#### 多返回值
+``` lua
 function Test()
 	return 10,20,30,40
 end
@@ -969,8 +1169,9 @@ print(b)
 print(c)
 print(d)
 print(e)--nil
-
-print("**********and or************")
+```
+#### and or
+``` lua
 --逻辑与 逻辑或
 -- and or 他们不仅可以连接 boolean 任何东西都可以用来连接
 -- 在lua中 只有 nil 和 false 才认为是假
@@ -986,9 +1187,6 @@ print( true or 1 ) --true
 print( false or 1) --1
 print( nil or 2) --2
 
---lua不支持三目运算符 
-x = 3
-y = 2
 -- ? : 模拟三目运算符
 local res = (x>y) and x or y
 print(res)
@@ -1005,88 +1203,66 @@ y = 2
 ### 协程
 
 ``` lua
-print("**********协同程序************")
 print("**********协程的创建************")
 --常用方式
 --coroutine.create()
 fun = function()
 	print(123)
 end
-co = coroutine.create(fun) --第一种方式创建 返回的是一个线程 常用方式
 
---协程的本质是一个线程对象 第一种方式创建 返回的是一个线程
-print(co)
-print(type(co)) --thread
+co = coroutine.create(fun) 	--创建线程方法1
+print(co)		--thread: 005
+print(type(co))	--thread
 
---coroutine.wrap() 第二种方式创建 返回的是函数
-co2 = coroutine.wrap(fun)
-print(co2)
-print(type(co2)) --返回出来的是函数
+co1 = coroutine.wrap(fun) 	--创建线程2
+print(co1)			--function 00
+print(type(co1))	--function
+
 
 print("**********协程的运行************")
 -- 俩种方式创建 俩种方式运行 不通用
---第一种方式 对应的 是通过 create创建的协程 
 coroutine.resume(co)  --使用create创建的
---第二种方式 调用函数 
-co2() --使用函数 --
+co2() --使用函数 
 
 print("**********协程的挂起************")
-fun2 = function( )
-	local i = 1
+fun = function()
+	local i=1
 	while true do
 		print(i)
-		i = i + 1
-		--协程的挂起函数
-		print(coroutine.status(co3)) --协程的状态 进行中
-		print(coroutine.running()) --当前正在运行的协程的线程号
-		--coroutine.yield() --处于挂起状态 下次进来从这里开始
-		coroutine.yield(i) --可以有返回值  要用俩个参数去启用的时候接 第一个是Boolean是否返回成功 
+		i = i+1
+
+		print(coroutine.status(co)) --running
+
+		--coroutine.yield() 
+		coroutine.yield(5) --处于挂起状态 下次进来从这里开始
 	end
 end
 
-co3 = coroutine.create(fun2)
---coroutine.resume(co3) --1 启动一句打印一次 --1 然后挂起
---coroutine.resume(co3) --2 启动一句打印一次
---coroutine.resume(co3) --3 启动一句打印一次
-co4 = coroutine.warp(fun2) --同上一样的
+co = coroutine.create(fun)
+coroutine.resume(co)--1 启动一句打印一次
+coroutine.resume(co)--2
 
---默认第一个返回值 是 协程是否启动成功 所以返回不了yield的返回值
---第二个是yield里面的返回值
-isOk, tempI = coroutine.resume(co3)
-print(isOk,tempI)
-isOk, tempI = coroutine.resume(co3)
-print(isOk,tempI)
-isOk, tempI = coroutine.resume(co3)
-print(isOk,tempI)
-
-co4 = coroutine.wrap(fun2)
---这种方式的协程调用 也可以有返回值 只是没有默认第一个返回值了
-print("返回值"..co4()) --1
-print("返回值"..co4()) --2
-print("返回值"..co4()) --3
+-- 启动可以得到返回值 yield可以有返回值
+isOk,temp = coroutine.resume(co)	--3,   第一个返回值为boolean类型 表示是否启动成功
+print(isOk,temp) 					--true 5
 
 print("**********协程的状态************")
 --coroutine.status(协程对象)
---dead 结束
+--dead 结束 当这个协程完全执行完了 
 --suspended 暂停
 --running 进行中
-print(coroutine.status(co3)) --暂停
-print(coroutine.status(co)) --结束
+print(coroutine.status(co)) --暂停
 
 --这个函数可以得到当前正在运行的协程的线程号
 print(coroutine.running())
 ```
 
 ### 元表
+任何表变量都可以作为另一个表变量的元表
+任何表变量都可以有自己的元表（爸爸）
+当我们子表中进行一些特定操作时
+会执行元表中的内容
 ``` lua
-print("**********元表************")
-print("**********元表概念************")
---任何表变量都可以作为另一个表变量的元表
---任何表变量都可以有自己的元表（爸爸）
---当我们子表中进行一些特定操作时
---会执行元表中的内容
-
-print("**********设置元表************")
 meta = {}
 myTable = {}
 --设置元表函数
@@ -1095,77 +1271,45 @@ myTable = {}
 setmetatable(myTable, meta)
 ```
 #### __tostring
-
 ``` lua
-print("**********特定操作************")
-print("**********特定操作-__tostring************")
-
---元表
-meta2 = {
+meta = {
 	--当子表要被当做字符串使用时 会默认调用这个元表中的tostring方法
-	__tostring = function(t) --这个下划线 注意一定要是来个下划线
-		return t.name
+	--这个方法必须返回一个字符串
+	__tostring = function (t)
+		print(t.name)
+		return "1"
 	end
 }
-
-print(myTable2) --相当于c#重写了tostring 打印 t.name 默认把自己传了进去
---如果没有调用方法meta2 = {} 
---print(myTable2) --打印类型和内存地址
-
---子表
-myTable2 = {
-	name = "唐老狮2"
-}
-
---设置元表函数
---第一个参数 子表
---第二个参数 元表（爸爸）
-setmetatable(myTable2, meta2)
-
-print(myTable2) --默认把myTable2传进去了
+myTable = {name="gao"}
+setmetatable(myTable,meta)
+print(myTable)	--gao 1
 ```
 #### __call 把子表当作函数调用
 当子表作为一个函数来使用时 会自动调用__call
 只用设置了元表 子表才能当成函数使用
 ``` lua
-print("**********特定操作-__call************")
-meta3 = {
-	--当子表要被当做字符串使用时 会默认调用这个元表中的tostring方法
-	__tostring = function(t)
-		return t.name
-	end,
-	--当子表被当做一个函数myTable3()来使用时 会默认调用这个__call中的内容
+meta = {
+	--当子表被当做一个函数myTable()来使用时 会默认调用这个__call中的内容
 	--当希望传参数时 一定要记住 默认第一个参数 是调用者自己
 	-- 也可以不传参数
-	__call = function(a, b)
-		print(a) --a其实是调用者自己
-		print(b)
-		print("唐老狮好爱你")
+	__call = function(t,a)
+		print(t.name)
+		print(a)
 	end
 }
-myTable3 = {
-	name = "唐老狮2"
-}
---设置元表函数
---第一个参数 子表
---第二个参数 元表（爸爸）
-setmetatable(myTable3, meta3)
+myTable = {name = "gao"}
+setmetatable(myTable,meta)
 --把子表当做函数使用 就会调用元表的 __call方法
-myTable3(1)
+myTable(1)	--gao 1
 ```
+
 #### 运算符重载
 一个表可以加另一个表
 有一个表加入元表 然后重载运算符即可实现
 ``` lua
-print("**********特定操作-运算符重载************")
-
-meta4 = {}
-myTable4 = {}
-setmetatable(myTable4, meta4)
-myTable5 = {}
-print(myTable4+myTable5) --不支持+-运算
 
 meta4 = {
+	-- 俩个元表其余一个中有就行
 	--相当于运算符重载 当子表使用+运算符时 会调用该方法
 	--运算符+
 	__add = function(t1, t2) 
@@ -1192,6 +1336,7 @@ meta4 = {
 		return 4
 	end,
 
+	--条件运算符要俩个都要一致元表 
 	-- 条件运算符
 	--运算符==
 	__eq = function(t1, t2)
@@ -1211,49 +1356,48 @@ meta4 = {
 	end
 
 }
-myTable4 = {age = 1}
-setmetatable(myTable4, meta4)
-myTable5 = {age = 2}
-setmetatable(myTable5, meta4) --条件运算符要俩个都要一致元表 其余一个中有就行
 
-print(myTable4 + myTable5)
-print(myTable4 - myTable5)
-print(myTable4 * myTable5)
-print(myTable4 / myTable5)
-print(myTable4 % myTable5)
-print(myTable4 ^ myTable5)
+meta = {
+	__add = function(t1,t2)
+		return t1.age + t2.age
+	end
+}
+meta.__eq = function(t1,t2)
+		return t1.age == t2.age
+	end
 
---如果要用条件运算符 来比较两个对象
---这两个对象的元表一定要一致 才能准确调用方法
--- 所以需要把俩个表 都加入同样的元表
-print(myTable4 == myTable5)
-print(myTable4 > myTable5)
-print(myTable4 <= myTable5)
+function meta:__concat(t1,t2)
+		print("haha")
+end
 
-print(myTable4 .. myTable5) --连接
+myTable1 = {age = 100}
+myTable2 = {age = 100}
+setmetatable(myTable1,meta)
+
+-- 算数运算符 + - 
+print(myTable1+myTable2) --200
+
+-- 比较运算符 == <=
+print(myTable1==myTable2) --false
+setmetatable(myTable2,meta) --俩个都要加入元表
+print(myTable1==myTable2) --true
+
+-- 字符串连接
+print(myTable1..myTable2) --haha nil
+
 ```
+
 #### __index和__newIndex
---__index 当子表中 找不到某一个属性时 
---会到元表中 **__index指定的表**去找属性 一定要是__index指定的表
+__index 当子表中 找不到某一个属性时 
+会到元表中 **__index指定的表**去找属性 一定要是__index指定的表
 
 ``` lua
-print("**********特定操作-__index和__newIndex************")
-
-------------------- __Index-------------------------------------------
-meta6 = {
-	age = 1 --要去__index指定的表
-	--__index={age = 2} --俩种添加方法 第一种元表里添加
-}
-myTable6 = {}
-setmetatable(myTable6,meta6)
-
---__index 当子表中 找不到某一个属性时 
---会到元表中 __index指定的表去找属性
-print(myTable6.age) --打印为nil 因为age = 1 没有被__index指定
-
---所以需要
-meta6.__index={age = 2} -- 一种添加方式 第二种元表外添加
-meta6.__index = meta6 -- 这样也可以 原表中有age = 1 **这种常用**
+meta = {age = 1}
+--meta.__index = {age = 1} --这样也可以
+meta.__index = meta --常用
+myTable = {}
+setmetatable(myTable,meta)
+print(myTable.age)	--1
 
 --------------------元表 套 元表-------------------
 myTable = {age = 99}
@@ -1267,11 +1411,11 @@ metaFather.__index = metaFather
 setmetatable(meta,metaFather)
 setmetatable(myTable,meta)--myTable为子表 meta为元表
 print(myTable.sex) --123456 一层一层的往上找
-
-------------------- __newIndex-------------------------------------------
--- __newIndex
---newIndex 当赋值时，如果赋值一个不存在的索引
---那么会把这个值赋值到newindex所指的表中 不会修改自己
+```
+##### 
+newIndex 当赋值时，如果赋值一个不存在的索引
+那么会把这个值赋值到元表的_newindex所指的表中 不会修改自己
+``` lua
 meta = {}
 myTable = {}
 setmetatable(myTable, meta)
@@ -1280,21 +1424,23 @@ print(myTable.age) --1
 
 -- 当元表加入__newindex后 修改的是newindex中的表 不会修改自己了
 meta.__newindex = {} 
-myTable7.age = 1	--改一个属性时 改不到 就会进入__newindex
+myTable.age = 1	--改一个属性时 改不到 就会进入__newindex
 print(myTable.age) --nil
 print(meta.__newindex.age) --1
 
--- 得到原表的方法
-print(getmetatable(myTable))
+-- 得到元表的方法
+t = getmetatable(myTable)
+print(t.__newindex.age)	--1
 
 --rawget 当我们使用它是 会去找自己身上有没有这个变量 不会去管元表
 meta.__index = {age = 1}
 print(myTable.age) --1
 print(rawget(myTable, "age")) --nil
 
---rawset 该方法 会忽略newindex的设置 只会改自己的变量 忽略newindex
-rawset(myTable, "age", 2) --设置了newindex也没用了
-print(myTable.age)
+--rawset 该方法 会忽略__newindex的设置 只会改自己的变量 忽略__newindex
+rawset(myTable, "age", 2) 	--忽略了__newindex
+print(myTable.age)			--2
+print(meta.__newindex.age) 	--nil
 ```
 
 ### 面向对象
@@ -1476,7 +1622,6 @@ p2:Move()
 ### 自带库
 
 ``` lua
-print("**********自带库************")
 print("**********时间************")
 --系统时间
 print(os.time())
@@ -1554,10 +1699,8 @@ collectgarbage("collect") --释放临时的东西
 print(collectgarbage("count"))
 
 --lua中 有自动定时进行GC的方法
---Unity中热更新开发 尽量不要去用自动垃圾回收 有点耗性能
+--Unity中热更新开发 尽量不要去用自动垃圾回收 有点耗性能 在切场景的时候释放
 ```
-
-### 单例模式基类
 
 ## XLua 热更新
 1. 导入Xlua框架
@@ -1565,6 +1708,540 @@ print(collectgarbage("count"))
 3. lua调用c#
 4. xlua热补丁 不用项目重做
 
-c# 代码和Resources资源 都是固定的 需要整包更新
+c# 代码和Resources资源 都是固定的 需要整包更新				
 ![](Image/2025-02-09-11-19-06.png)
-热更新的本质是 为Unity提供Lua编程能力 让C#和Lua可以相互调用访问
+热更新的本质是 为Unity提供Lua编程能力 让C#和Lua可以相互调用访问		
+
+### xLua框架导入和AB包相关准备
+https://github.com/Tencent/xLua 
+Code Download
+解压后将asset中的Plugins和Xlua 拖入Unity文件中中
+
+AB包导入
+package manager中搜索 Asset Bundle Browser
+
+## c#调用lua
+### lua解析器
+Lua解析器 能够让我们在Unity中执行Lua
+``` c#
+// 引入命名空间
+using XLua; 
+
+// 一般保持其唯一性 用一个就足够了
+LuaEnv env = new LuaEnv();
+
+// 执行Lua语言
+env.DoString("print('hello world')");
+
+// 一般执行一个Lua脚本 通过lua中的多脚本执行 require
+env.DoString("require('helloworld')"); //默认路径是resource文件夹下
+//直接在这个文件下 创建一个文本文件 .txt 改为 .lua.txt 通过Resources.Load来加载lua脚本
+
+// 帮助我们清楚Lua中我们没有手动释放的对象 垃圾回收
+// 帧更新中定时执行 或者 切场景时执行
+env.Tick();
+
+// 销毁Lua解析器 很少进行销毁
+env.Dispose();
+```
+
+### 文件加载重定向
+不需要在resource文件夹下 创建一个文本文件 Main.lua.txt 通过Resources.Load来加载lua脚本.
+现在可以在asset文件下 创建一个lua文件 存储Main.lua文件
+``` c#
+LuaEnv env = new LuaEnv();
+
+//xlua提供的一个 路径重定向 的方法
+//允许我们自定义 加载 Lua文件的规则
+//当我们执行Lua语言 require 时 相当于执行一个lua脚本
+//它就会 执行 我们自定义传入的这个函数 然后在
+env.AddLoader(MyCustomLoader);
+
+// 先在自定义函数里去找文件 找不到没有返回值 再去默认路径寻找
+env.DoString("require('Main')"); //执行require时 找MyCustomLoader
+
+//自动执行
+private byte[] MyCustomLoader(ref string filePath)
+{
+    //通过函数中的逻辑 去加载 Lua文件 
+    //传入的参数 是 require执行的lua脚本文件名 main
+    //拼接一个Lua文件所在路径 
+	// Asset/Lua/main.lua
+    string path = Application.dataPath + "/Lua/" + filePath + ".lua";
+    Debug.Log(path);
+
+    //有路径 就去加载文件 
+    //File知识点 C#提供的文件读写的类
+    //判断文件是否存在
+    if (File.Exists(path)) //using System.IO
+    {
+        return File.ReadAllBytes(path); //返回一个数组
+    }
+    else
+    {
+        Debug.Log("MyCustomLoader重定向失败，文件名为" + filePath);
+    }
+
+    return null;
+}
+```
+
+### Lua解析器管理器
+Lua管理器 提供lua解析器
+保证解析器的唯一性
+Lua脚本会放在AB包中 最终我们会通过加载AB包再加载其中的Lua脚本资源来执行它
+而且需要AB包加载lua 后缀还是有一定的限制 .lua不能被识别
+lua文件后缀需要改为.txt 平时可以直接用 打AB包太麻烦啦
+``` c#
+public class LuaMgr:BaseManager<LuaMgr>
+{
+    public LuaEnv luaEnv;
+
+    // 得到lua中的_G
+    public LuaTable Global
+    {
+        get => luaEnv.Global;
+    }
+
+    //初始化解析器
+    public void Init()
+    {
+        if (luaEnv != null)
+            return;
+        luaEnv = new LuaEnv(); //初始化
+        // 加载lua脚本 MyCustomABLoader 依次执行
+        luaEnv.AddLoader(MyCustomLoader);
+        luaEnv.AddLoader(MyCustomABLoader);
+    }
+    // 执行Lua脚本
+    public void Dostring(string str)
+    {
+        if (luaEnv == null)
+        {
+            Debug.Log("解析器未初始化");
+            return;
+        }
+        luaEnv.DoString(str);   
+    }
+    // 可以直接传入文件名即可 不需要"require('Main')"
+    public void DoLuaFile(string fileName)
+    {
+        string str = string.Format("require('{0}')",fileName);
+        Dostring(str);
+    }
+    // 释放垃圾
+    public void Tick()
+    {
+        if (luaEnv == null)
+        {
+            Debug.Log("解析器未初始化");
+            return;
+        }
+        luaEnv.Tick();
+    }
+    // 销毁
+    public void Dispose()
+    {
+        if (luaEnv == null)
+        {
+            Debug.Log("解析器未初始化");
+            return;
+        }
+        luaEnv.Dispose();
+        luaEnv = null;
+    }
+
+    //重定向地址 自动执行 
+    private byte[] MyCustomLoader(ref string filePath)
+    {
+        //通过函数中的逻辑 去加载 Lua文件 
+        //传入的参数 是 require执行的lua脚本文件名
+        //拼接一个Lua文件所在路径
+        string path = Application.dataPath + "/Lua/" + filePath + ".lua";
+        Debug.Log(path);
+
+        //有路径 就去加载文件 
+        //File知识点 C#提供的文件读写的类
+        //判断文件是否存在
+        if (File.Exists(path))
+        {
+            return File.ReadAllBytes(path);
+        }
+        else
+        {
+            Debug.Log("MyCustomLoader重定向失败，文件名为" + filePath);
+        }
+        return null;
+    }
+
+    //重定向AB包中的lua脚本
+    private byte[] MyCustomABLoader(ref string filePath)
+    {
+        //-----------自己来读取---------------------------------
+        //Debug.Log("进入了AB包中的lua脚本");
+        ////从AB包中加载lua文件
+        //string path = Application.streamingAssetsPath + "/lua";
+        //AssetBundle ab = AssetBundle.LoadFromFile(path);
+
+        ////加载Lua文件返回
+        //TextAsset tx = ab.LoadAsset<TextAsset>(filePath + ".lua");
+        ////加载Lua文件
+        //return tx.bytes;
+
+        //-----------直接使用管理器来读取---------------------------------
+        TextAsset tx = ABMgr.GetInstance().LoadRes<TextAsset>("lua",filePath + ".lua");
+        if(tx!=null)
+            return tx.bytes;
+        else
+            Debug.Log("MyCustomLoader重定向失败，文件名为" + filePath);
+        return null;
+    }
+}
+// 初始化解析器
+LuaMgr.GetInstance().Init();
+LuaMgr.GetInstance().DoLuaFile("Main");
+```
+### 全局变量的获取
+``` c#
+LuaMgr.GetInstance().Init();
+
+LuaMgr.GetInstance().DoLuaFile("Main");
+
+//本地局部变量无法取得 会报错
+int local = LuaMgr.GetInstance().Global.Get<int>("testLocal");
+Debug.Log("testLocal:" + local);
+
+//使用lua解析器luaenv中的 Global属性 _G
+int i = LuaMgr.GetInstance().Global.Get<int>("testNumber");
+Debug.Log("testNumber:" + i);	//1
+i = 10; //值拷贝 不会影响原来Lua中的值
+
+//用set改值
+LuaMgr.GetInstance().Global.Set("testNumber", 55);
+int i2 = LuaMgr.GetInstance().Global.Get<int>("testNumber");
+Debug.Log("testNumber_i2:" + i2); //55
+```
+
+### 全局函数的获取
+#### 无参无返回值
+``` lua
+-- 无参无返回
+testFun = function ()
+	print("无参无返回值")
+end
+```
+自定义委托,UnityAction,Action
+``` c#
+//无参无返回值的委托
+public delegate void CustomCall();
+
+LuaMgr.GetInstance().Init();
+LuaMgr.GetInstance().DoLuaFile("Main");
+
+// 无参无返回值的函数获取 自定义委托/UnityAction/Action
+CustomCall call = LuaMgr.GetInstance().Global.Get<CustomCall>("testFun");
+call();
+
+// Xlua提供的一种获取函数的方式 少用
+LuaFunction lf = LuaMgr.GetInstance().Global.Get<LuaFunction>("testFun");
+lf.Call();
+```
+
+#### 有参有返回
+``` lua
+-- 有参有返回值
+testFun1 = function (i)
+	print("有参有返回值")
+	return i+100
+end
+```
+``` c#
+//有参有返回值的委托
+[CSharpCallLua] //该特性需要xlua-generate生成
+                //没有这个特性Xlua将不认识这个委托
+public delegate int CustomCall2(int a);
+
+//有参有返回
+CustomCall2 call1 = LuaMgr.GetInstance().Global.Get<CustomCall2>("testFun1");
+Debug.Log(call1(1));
+Func<int,int> s1 = LuaMgr.GetInstance().Global.Get<Func<int, int>>("testFun1");
+Debug.Log(s1(1));
+LuaFunction lf1 = LuaMgr.GetInstance().Global.Get<LuaFunction>("testFun1");
+Debug.Log(lf1.Call(1)[0]);
+```
+
+#### 多返回值 使用out和ref
+``` lua
+-- 多返回值
+testFun2 = function (i)
+	print("多返回值")
+	return i,2,false,"123",100
+end
+```
+``` c#
+[CSharpCallLua]
+public delegate int CustomCall3(int a,out int b, out bool c,
+    out string d, out int e);
+[CSharpCallLua]
+public delegate int CustomCall4(int a, ref int b, ref bool c,
+    ref string d, ref int e);
+
+// out
+CustomCall3 call3 = LuaMgr.GetInstance().Global.Get<CustomCall3>("testFun2");
+int b; bool c; string d; int e;
+Debug.Log("第一个返回值:" + call3(100, out b, out c, out d, out e));
+Debug.Log(b);
+Debug.Log(c);
+Debug.Log(d);
+Debug.Log(e);
+// ref
+int b = 0; bool c = true; string d = ""; int e = 0;
+CustomCall4 call4 = LuaMgr.GetInstance().Global.Get<CustomCall4>("testFun2");
+Debug.Log("第一个返回值:" + call4(100, ref b, ref c, ref d, ref e));
+Debug.Log(b);
+Debug.Log(c);
+Debug.Log(d);
+Debug.Log(e);
+
+//官方建议用委托 LuaFunction会有垃圾
+LuaFunction lf3 = LuaMgr.GetInstance().Global.Get<LuaFunction>("testFun2");
+object[] objs = lf3.Call(1000);
+for (int i = 0; i < objs.Length; i++)
+{
+    Debug.Log(objs[i]);
+}
+```
+#### 变长参数 使用out和ref
+``` lua
+-- 变长参数
+testFun3 = function (...)
+	arr = {...}
+	print("变长参数")
+	for k in pairs(arr) do
+		print(k)
+	end
+end
+```
+``` c#
+[CSharpCallLua]
+public delegate int CustomCall5(string a,params int[] args);
+
+// 变长参数
+CustomCall5 call5 = LuaMgr.GetInstance().Global.Get<CustomCall5>("testFun3");
+call5("123", 1, 2, 3, 4, 5, 99);
+
+LuaFunction lf4 = LuaMgr.GetInstance().Global.Get<LuaFunction>("testFun3");
+lf4.Call("123", 1, 2, 3, 4, 5, 99);
+```
+
+### 映射到List和Dictionary
+List: 一般用来映射没有自定义索引的表
+确定类型,指定类型即可
+不确定类型，用object
+
+Dictionary: 一般用来映射有自定义索引的表
+确定类型指定类型即可
+不确定类型 用object
+``` lua
+testList = {1,2,3,4,5,6}
+testList2 = {"123","123",true,1,1.5}
+
+testDic = 
+{
+	["name"] = "gao",
+	["age"] = 14,
+	[true] = 4
+}
+```
+``` c#
+List<int> list = LuaMgr.GetInstance().Global.Get<List<int>>("testList");
+Debug.Log(list);
+for (int i = 0; i < list.Count; i++)
+{
+    Debug.Log(list[i]);
+}
+
+//不确定使用object装
+List<object> list1 = LuaMgr.GetInstance().Global.Get<List<object>>("testList2");
+Debug.Log(list1);
+for (int i = 0; i < list1.Count; i++)
+{
+    Debug.Log(list1[i]); 
+}
+
+Dictionary<string, int> dic = LuaMgr.GetInstance().Global.Get<Dictionary<string, int>>("testDic");
+foreach (var item in dic)
+{
+    Debug.Log(item.Key + "  " + item.Value); // age 14
+}
+
+Dictionary<object, object> dic1 = LuaMgr.GetInstance().Global.Get<Dictionary<object, object>>("testDic");
+foreach (var item in dic1)
+{
+    Debug.Log(item.Key + "  " + item.Value); //age 14 / name gao /True 4 / age 14
+}
+```
+### lua映射到类
+在这个类中去声明成员变量
+名字一定要和Lua那边的一样
+一定是要公共的成员
+自定义中的变量可以更多也可以更少 
+变量比lua中的少 就会忽略它
+变量比lua中的多 不会复制也会忽略
+值拷贝
+``` lua
+testClass = 
+{
+	testInt=2,
+	testString = "gao",
+	testBoolean = true,
+	testFloat = 15.1555,
+
+	testFun = function ()
+		print("hahahhah")
+	end,
+	testInClass = {name="ixixiiixiixixiixi"}
+}
+```
+
+``` c#
+public class CallLuaClass
+{
+    // 在这个类中去声明成员变量
+    //名字一定要和Lua那边的一样
+    //一定是要公共的
+    public int testInt;
+    public string testString;
+    public bool testBoolean;
+    public float testFloat;
+
+    public UnityAction testFun;
+
+    public testLuaInClass testInClass;
+    //自定义中的变量可以更多也可以更少 
+    //变量比lua中的少 就会忽略它
+    //变量比lua中的多 不会复制也会忽略
+    //值拷贝
+}
+public class testLuaInClass
+{ public string name; }
+
+LuaMgr.GetInstance().Init();
+LuaMgr.GetInstance().DoLuaFile("Main");
+
+CallLuaClass c = LuaMgr.GetInstance().Global.Get<CallLuaClass>("testClass");
+Debug.Log(c.testInt);
+Debug.Log(c.testString);
+Debug.Log(c.testBoolean);
+Debug.Log(c.testFloat);
+
+c.testFun();
+
+Debug.Log(c.testInClass.name);
+
+```
+### lua映射接口
+``` lua
+testClass = 
+{
+	testInt=2,
+	testString = "gao",
+	testBoolean = true,
+	testFloat = 15.1555,
+
+	testFun = function ()
+		print("hahahhah")
+	end	
+}
+```
+``` c#
+//变量比lua中的少 就会忽略它 变量比lua中的多 不会复制也会忽略
+//使用接口接收需要使用特性 然后xlua进行编译
+//嵌套几乎和类相同 要用特性并且编译
+[CSharpCallLua] 
+public interface ICSCallInterface //接口不支持成员变量可以使用属性 而且该接口需要是公共的
+{
+    public int testInt
+    { 
+        get; set;
+    }
+    public string testString
+    {
+        get; set;
+    }
+    public bool testBoolean
+    {
+        get; set;
+    }
+    public float testFloat
+    {
+        get; set;
+    }
+    
+    UnityAction testFun
+    {
+        get; set;
+    }
+}
+LuaMgr.GetInstance().Init();
+LuaMgr.GetInstance().DoLuaFile("Main");
+
+ICSCallInterface c = LuaMgr.GetInstance().Global.Get<ICSCallInterface>("testClass");
+
+Debug.Log(c.testString);
+Debug.Log(c.testBoolean);
+Debug.Log(c.testFloat);
+Debug.Log(c.testInt);   //2
+//接口拷贝是引用拷贝 改了值 lua表中的值也变了
+c.testInt = 10000;
+ICSCallInterface d = LuaMgr.GetInstance().Global.Get<ICSCallInterface>("testClass");
+Debug.Log(d.testInt); //10000
+c.testFun();
+```
+### luaTable映射到table
+通过Xlua提供给我们的LuaTable来获取lua中的表
+得和改变量通过Get和Set
+用完需要Dispose 销毁 不建议使用
+``` lua
+testClass = 
+{
+	testInt=2,
+	testString = "gao",
+	testBoolean = true,
+	testFloat = 15.1555,
+
+	testFun = function ()
+		print("hahahhah")
+	end	
+}
+```
+``` c#
+LuaMgr.GetInstance().Init();
+LuaMgr.GetInstance().DoLuaFile("Main");
+
+LuaTable table = LuaMgr.GetInstance().Global.Get<LuaTable>("testClass");
+
+//不建议使用LuaTable和LuaFunction效率低
+Debug.Log(table.Get<int>("testInt")); //2
+Debug.Log(table.Get<int>("testString"));
+Debug.Log(table.Get<int>("testBoolean"));
+Debug.Log(table.Get<int>("testFloat"));
+
+table.Get<LuaFunction>("testFun").Call();
+
+//改 引用
+table.Set("testInt",55);
+Debug.Log(table.Get<int>("testInt")); //55
+LuaTable table1 = LuaMgr.GetInstance().Global.Get<LuaTable>("testClass");
+Debug.Log(table1.Get<int>("testInt")); //55
+
+//需要清空 不然一直会占内存
+table.Dispose();
+table1.Dispose();
+```
+### CSharpCallLua特性
+自定义委托 接口 会使用 
+
+## Lua调用c# 
+Lua没办法直接访问C# 一定是先从C#调用Lua脚本后 才把核心逻辑交给了Lua来编写
+### 类

@@ -1,5 +1,12 @@
+## 1. 控制台墙体绘制
+Console.WriteLine("■"); 
+占x俩个 所以在设置光标位置时 需要空俩格
 
-## 1. 奥德赛项目移动问题 3个小时
+y = Game.sceneHeight - 1;
+在绘制最后一行时 使用WriteLine会导致 自动跳到下一个索引 导致buff区向下移动
+改为-2 ,或者使用Write
+
+## 2. 奥德赛项目移动问题 3个小时
 
 **出BUG原因**
 发现w和s输出不能接收到 所以不能在ws方向上移动 
@@ -22,7 +29,7 @@ axis.x = Mathf.Abs(axis.x) > deadzone ? RemapToDeadzone(axis.x, deadzone) : 0;
 axis.y = Mathf.Abs(axis.y) > deadzone ? RemapToDeadzone(axis.y, deadzone) : 0;
 ```
 
-## 2. 奥德赛项目向后转会飞起来 1个小时
+## 3. 奥德赛项目向后转会飞起来 1个小时
 在Brake到Backflip时 会给竖直方向一个速度 不知道为什么 
 原来是后空翻 跳一下来转到后面 不然不顺畅
 调试还是能发现问题
