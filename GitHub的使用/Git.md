@@ -8,3 +8,5 @@
 注意每一次提交 需要写消息                       
 
 
+GitHub项目设置公开/隐私
+在项目中间有一个Setting 下拉Change visibilty 
